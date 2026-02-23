@@ -1,0 +1,119 @@
+import { useListController } from "@/core/entity/list/use-list-controller";
+
+import { Button } from '@/core/user-interface/button';
+import { Typography } from '@/core/user-interface/typography';
+import { Avatar } from '@/core/user-interface/avatar';
+import { DataGrid } from '@/core/user-interface/data-grid';
+import { Chip } from '@/core/user-interface/chip';
+import { Base } from '@/core/user-interface/base';
+import { Skeleton } from "@/core/user-interface/skeleton";
+
+import { useNavigate } from "@/core/routing-provider/use-navigate";
+
+import type { Colaborador } from "../model";
+
+
+
+export const ListColaboradoresPage = () => {
+    const { data, isLoading, error, setQueryParams } = useListController<
+        Colaborador,
+        Colaborador & { page: number; limit: number }
+    >({ entity: 'colaboradores' })
+
+
+    const navigate = useNavigate()
+    return (
+        <>
+            <Base
+                _css={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    pb: theme => theme.spacing(5),
+                    pt: theme => theme.spacing(6)
+                }}>
+                <Typography variant='h4' component='h1'>
+                    Colaboradores
+                </Typography>
+                <Button onClick={() => navigate('/create')}>
+                    Novo Colaborador
+                </Button>
+            </Base>
+            <DataGrid>
+                <DataGrid.Header>
+                    <DataGrid.HeaderCell>
+                        Nome
+                    </DataGrid.HeaderCell>
+                    <DataGrid.HeaderCell>
+                        Email
+                    </DataGrid.HeaderCell>
+                    <DataGrid.HeaderCell>
+                        Departamento
+                    </DataGrid.HeaderCell>
+                    <DataGrid.HeaderCell align='right'>
+                        Status
+                    </DataGrid.HeaderCell>
+                </DataGrid.Header>
+                <DataGrid.Body>
+                    {error ? (
+                        <></>
+                    ) : isLoading ? [1, 2, 3, 4].map((num) =>
+                        <DataGrid.Row key={num}>
+                            <DataGrid.Cell>
+                                <Base
+                                    _css={{
+                                        display: 'flex',
+                                        gap: theme => theme.spacing(2),
+                                        alignItems: 'center'
+                                    }}>
+                                    <Skeleton _css={{ flexShrink: 0 }} variant="circular" width={40} height={40} />
+                                    <Skeleton width={150} />
+                                </Base>
+                            </DataGrid.Cell>
+                            <DataGrid.Cell>
+                                <Skeleton />
+                            </DataGrid.Cell>
+                            <DataGrid.Cell>
+                                <Skeleton />
+                            </DataGrid.Cell>
+                            <DataGrid.Cell align='right'>
+                                <Skeleton />
+                            </DataGrid.Cell>
+                        </DataGrid.Row>
+                    ) : data.data.map(row => (
+                        <DataGrid.Row key={row.email}>
+                            <DataGrid.Cell>
+                                <Base
+                                    _css={{
+                                        display: 'flex',
+                                        gap: theme => theme.spacing(2),
+                                        alignItems: 'center'
+                                    }}>
+                                    <Avatar src={row.avatar} alt={row.name} />
+                                    {row.name}
+                                </Base>
+                            </DataGrid.Cell>
+                            <DataGrid.Cell>
+                                {row.email}
+                            </DataGrid.Cell>
+                            <DataGrid.Cell>
+                                {row.role}
+                            </DataGrid.Cell>
+                            <DataGrid.Cell align='right'>
+                                <Chip color={row.status ? 'success' : 'error'}>
+                                    {row.status ? 'Ativo' : 'Inativo'}
+                                </Chip>
+                            </DataGrid.Cell>
+                        </DataGrid.Row>
+                    ))}
+                    <button onClick={() => {
+                        setQueryParams(prev => {
+                            console.log(prev)
+                            return { ...prev, page: (prev?.page || 0) + 1 }
+                        })
+                    }}>next page</button>
+                </DataGrid.Body>
+            </DataGrid>
+        </>
+    )
+}
