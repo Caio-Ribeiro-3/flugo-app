@@ -27,5 +27,5 @@ export interface ListPayload {
 
 export interface RepositoryProvider {
     list<RecordType extends BaseRecord>(args: ListPayload): Promise<ListResult<RecordType>>
-    create<RecordType extends BaseRecord>(args: { entity: string; payload: Partial<RecordType> }): Promise<RecordType>
+    create<RecordType extends BaseRecord>(args: { entity: string; payload: Partial<RecordType> }): Promise<void>
 }

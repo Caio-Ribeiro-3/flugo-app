@@ -57,10 +57,10 @@ export class MockRepositoryProvider implements RepositoryProvider {
             total: entityStorage.length
         }), 1000))
     }
-    create<RecordType extends BaseRecord>({
+    async create<RecordType extends BaseRecord>({
         entity,
         payload
-    }: { entity: string; payload: Partial<RecordType>; }): Promise<RecordType> {
+    }: { entity: string; payload: Partial<RecordType>; }): Promise<void> {
         let entityStorage = this._storage[entity]
         if (!entityStorage) {
             this._storage[entity] = []
@@ -72,7 +72,7 @@ export class MockRepositoryProvider implements RepositoryProvider {
 
         entityStorage.push(newEntity)
 
-        return new Promise<RecordType>(resolve => {
+        await new Promise<RecordType>(resolve => {
             setTimeout(() => resolve(newEntity as RecordType), 1000)
         })
     }
