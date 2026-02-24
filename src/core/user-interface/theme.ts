@@ -6,6 +6,9 @@ class AppTheme implements Theme {
     spacing;
     palette;
     typography;
+    borders;
+    boxShadow;
+    components;
 
     constructor() {
         this.DEFAULT_SPACING = 8
@@ -26,7 +29,8 @@ class AppTheme implements Theme {
             },
             text: {
                 primary: '#212B36',
-                secondary: '#637381'
+                secondary: '#637381',
+                disabled: '#919EAB'
             },
             divider: 'rgba(145, 158, 171, 0.2)',
             success: {
@@ -56,6 +60,22 @@ class AppTheme implements Theme {
                 lineHeight: 36 / 24,
                 fontWeight: 700,
                 color: this.palette.text.primary
+            }
+        }
+
+        this.borders = {
+            dashed: '1px dashed rgba(145, 158, 171, 0.2)'
+        }
+
+        this.boxShadow = {
+            light: '0px 0px 2px rgba(145, 158, 171, 0.2), 0px 12px 24px -4px rgba(145, 158, 171, 0.12)'
+        }
+
+        this.components = {
+            table: {
+                tableHeader: {
+                    bgColor: '#F4F6F8'
+                }
             }
         }
     }

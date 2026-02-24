@@ -15,7 +15,7 @@ import type { Colaborador } from "../model";
 
 
 export const ListColaboradoresPage = () => {
-    const { data, isLoading, error, setQueryParams } = useListController<
+    const { data, isLoading, error, queryParams, setQueryParams } = useListController<
         Colaborador,
         Colaborador & { page: number; limit: number }
     >({ entity: 'colaboradores' })
@@ -29,10 +29,10 @@ export const ListColaboradoresPage = () => {
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    pb: theme => theme.spacing(5),
-                    pt: theme => theme.spacing(6)
+                    pb: theme => theme.spacing(4),
+                    pt: theme => theme.spacing(7)
                 }}>
-                <Typography variant='h4' component='h1'>
+                <Typography variant='desktop-h4' component='h1'>
                     Colaboradores
                 </Typography>
                 <Button onClick={() => navigate('/create')}>
@@ -41,16 +41,16 @@ export const ListColaboradoresPage = () => {
             </Base>
             <DataGrid>
                 <DataGrid.Header>
-                    <DataGrid.HeaderCell>
+                    <DataGrid.HeaderCell id="name">
                         Nome
                     </DataGrid.HeaderCell>
-                    <DataGrid.HeaderCell>
+                    <DataGrid.HeaderCell id="email">
                         Email
                     </DataGrid.HeaderCell>
-                    <DataGrid.HeaderCell>
+                    <DataGrid.HeaderCell id="role">
                         Departamento
                     </DataGrid.HeaderCell>
-                    <DataGrid.HeaderCell align='right'>
+                    <DataGrid.HeaderCell align='right' id="status">
                         Status
                     </DataGrid.HeaderCell>
                 </DataGrid.Header>
@@ -106,13 +106,8 @@ export const ListColaboradoresPage = () => {
                             </DataGrid.Cell>
                         </DataGrid.Row>
                     ))}
-                    <button onClick={() => {
-                        setQueryParams(prev => {
-                            console.log(prev)
-                            return { ...prev, page: (prev?.page || 0) + 1 }
-                        })
-                    }}>next page</button>
                 </DataGrid.Body>
+                <DataGrid.Footer />
             </DataGrid>
         </>
     )

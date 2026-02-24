@@ -12,6 +12,7 @@ export interface Theme {
         text: {
             primary: string,
             secondary: string
+            disabled: string
         },
         divider: string
         success: {
@@ -22,12 +23,17 @@ export interface Theme {
         },
     },
     borders: {
-        dotted: {
-            main: string;
-        },
+        dashed: string,
     },
     boxShadow: {
         light: string
+    },
+    components: {
+        table: {
+            tableHeader: {
+                bgColor: string
+            }
+        }
     }
 }
 

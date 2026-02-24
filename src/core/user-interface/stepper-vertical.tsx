@@ -1,4 +1,4 @@
-import type { PropsWithChildren } from 'react';
+import { createContext, useContext, type PropsWithChildren } from 'react';
 
 import MUITimeline from '@mui/lab/Timeline';
 import MUITimelineItem from '@mui/lab/TimelineItem';
@@ -7,28 +7,43 @@ import MUITimelineConnector from '@mui/lab/TimelineConnector';
 import MUITimelineContent from '@mui/lab/TimelineContent';
 import MUITimelineDot from '@mui/lab/TimelineDot';
 import { CheckIcon } from './icons/check';
+import { Typography } from './typography';
 
 const StepperVertical = ({ children }: PropsWithChildren) => {
     return (
-        <MUITimeline sx={{ my: 0, py: 0 }}>{children}</MUITimeline>
+        <MUITimeline sx={{ my: 0, p: 0 }}>{children}</MUITimeline>
     )
 }
 
-const StepperVerticalItem = ({ children }: PropsWithChildren) => {
+interface StepperVerticalItemProps {
+    isCurrent?: boolean;
+    isCompleted?: boolean;
+}
+
+const StepperVerticalItemContext = createContext<StepperVerticalItemProps | null>(null)
+
+const useStepperVerticalItemContext = () => useContext(StepperVerticalItemContext)!
+
+const StepperVerticalItem = ({ children, ...rest }: PropsWithChildren<StepperVerticalItemProps>) => {
     return (
-        <MUITimelineItem
-            sx={{
-                '::before': {
-                    flex: 0
-                }
-            }}
-        >{children}</MUITimelineItem>
+        <StepperVerticalItemContext.Provider value={rest}>
+            <MUITimelineItem
+                sx={{
+                    '::before': {
+                        flex: 0,
+                        padding: 0
+                    }
+                }}
+            >
+                {children}
+            </MUITimelineItem>
+        </StepperVerticalItemContext.Provider>
     )
 }
 
 const StepperVerticalSeparator = ({ children }: PropsWithChildren) => {
     return (
-        <MUITimelineSeparator >{children}</MUITimelineSeparator>
+        <MUITimelineSeparator>{children}</MUITimelineSeparator>
     )
 }
 
@@ -39,27 +54,27 @@ const StepperVerticalConnector = () => {
 }
 
 const StepperVerticalContent = ({ children }: PropsWithChildren) => {
+    const { isCurrent, isCompleted } = useStepperVerticalItemContext()
     return (
-        <MUITimelineContent >{children}</MUITimelineContent>
+        <MUITimelineContent sx={{ pt: theme => theme.spacing(1), pl: 1, pr: 0 }}>
+            <Typography variant='subtitle2' disabled={!isCurrent && !isCompleted}>
+                {children}
+            </Typography>
+        </MUITimelineContent>
     )
 }
 
-interface TimelineDotProps {
-    isCurrent?: boolean;
-    isCompleted?: boolean;
-}
-
 const StepperVerticalDot = ({
-    isCurrent,
-    isCompleted,
-    children }: PropsWithChildren<TimelineDotProps>) => {
+    children
+}: PropsWithChildren) => {
+    const { isCurrent, isCompleted } = useStepperVerticalItemContext()
     const isPrimaryVariant = (isCurrent || isCompleted)
     return (
         <MUITimelineDot
             sx={{
                 height: theme => theme.spacing(3),
                 width: theme => theme.spacing(3),
-                color: isPrimaryVariant ? 'white' : undefined,
+                color: isPrimaryVariant ? 'white' : 'text.secondary',
                 display: 'flex',
                 flexShrink: 0,
                 flexGrow: 0,

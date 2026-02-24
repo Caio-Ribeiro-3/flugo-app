@@ -6,6 +6,7 @@ import { useTheme } from './context-provider';
 export interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
     variant?: 'contained' | 'outlined' | 'text';
     color?: 'primary' | 'neutral'
+    size?: 'large'
 }
 /**
  * @component Button
@@ -24,20 +25,35 @@ export interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTML
  * @param {function} props.onClick - Handler de clique traduzido para o padrão do projeto.
  * 
  * @example
- * <Button variant="primary" onClick={() => console.log('Ação capturada!')}>
+ * <Button variant="primary" onClick={handleOnClick}>
  *   Salvar Alterações
  * </Button>
  */
 export const Button = ({
     variant = 'contained',
     color = 'primary',
+    size = 'large',
     ...rest
 }: PropsWithChildren<ButtonProps>) => {
     const theme = useTheme()
-    const finalColor = variant === 'contained' ? 'white' : theme.palette.primary.main
+    const finalColor = variant === 'contained' ? 'white' : color === 'neutral' ? theme.palette.text.primary : theme.palette.primary.main
     return (
         <MUIButton
             sx={{
+                fontWeight: 700,
+                px: 2,
+                py: 0,
+                minHeight: theme.spacing(6),
+                minWidth: theme.spacing(8),
+                borderRadius: 1,
+                boxShadow: 'none',
+                textTransform: 'none',
+                lineHeight: 26 / 15,
+                fontSize: 15,
+                ":hover": {
+                    boxShadow: 'none',
+                    bgcolor: color === 'neutral' ? theme.palette.divider : undefined
+                },
                 color: finalColor,
             }}
             variant={variant}

@@ -1,20 +1,28 @@
 import type { PropsWithChildren } from 'react';
 
-import { } from '@mui/x-data-grid/DataGrid';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 
-import { IconButton } from './button';
+import { TableFooter, TablePagination, TableSortLabel } from '@mui/material';
+import { useListController } from '../entity/list/use-list-controller';
+import type { Colaborador } from '@/features/colaboradores/model';
+import { Typography } from './typography';
+import { useTheme } from './context-provider';
 
 const DataGrid = ({ children }: PropsWithChildren) => {
+    const theme = useTheme()
     return (
-        <TableContainer>
-            <Table sx={{ tableLayout: 'fixed' }}>
+        <TableContainer
+            sx={{
+                borderRadius: theme.spacing(2),
+                boxShadow: theme.boxShadow.light
+            }}
+        >
+            <Table>
                 {children}
             </Table>
         </TableContainer>
@@ -22,10 +30,11 @@ const DataGrid = ({ children }: PropsWithChildren) => {
 }
 
 const Header = ({ children }: PropsWithChildren) => {
+    const theme = useTheme()
     return (
         <TableHead
             sx={{
-                bgcolor: '#F4F6F8',
+                bgcolor: theme.components.table.tableHeader.bgColor,
             }}>
             {children}
         </TableHead>
@@ -34,28 +43,37 @@ const Header = ({ children }: PropsWithChildren) => {
 }
 
 export interface HeaderCellProps {
+    id: string;
     align?: 'left' | 'right'
 }
 
 const HeaderCell = ({
+    id,
     align = 'left',
     children
 }: PropsWithChildren<HeaderCellProps>) => {
+    const { data, isLoading, error, queryParams, setQueryParams } = useListController<
+        Colaborador,
+        Colaborador & { page: number; limit: number }
+    >({ entity: 'colaboradores' })
     return (
         <TableCell
             align={align}
             sx={{
-                fontWeight: 600,
-                fontSize: 14,
-                lineHeight: 24 / 14,
                 p: theme => theme.spacing(2),
                 maxWidth: 270,
-                color: theme => theme.palette.text.secondary
             }}>
-            {children}
-            <IconButton size='small' sx={{ my: 'auto' }}>
-                <ArrowUpwardIcon sx={{ fontSize: 18 }} />
-            </IconButton>
+            <TableSortLabel
+                active={!!queryParams[id]}
+                direction={queryParams[id]!}
+                onClick={() => {
+                    setQueryParams(prev => ({ ...prev, [id]: !prev[id] ? 'asc' : prev[id] === 'asc' ? 'desc' : undefined }))
+                }}
+            >
+                <Typography variant='table-head'>
+                    {children}
+                </Typography>
+            </TableSortLabel>
         </TableCell>
     )
 
@@ -68,10 +86,7 @@ const Body = ({ children }: PropsWithChildren) => {
 
 const Row = ({ children }: PropsWithChildren) => {
     return (
-        <TableRow
-            sx={{
-            }}
-        >
+        <TableRow>
             {children}
         </TableRow>
     )
@@ -90,16 +105,35 @@ const Cell = ({ align = 'left', children }: PropsWithChildren<CellProps>) => {
                 maxWidth: 270,
             }}
         >
-            {children}
+            <Typography variant='body2'>
+                {children}
+            </Typography>
         </TableCell>
     )
 }
 
-const SortButton = ({ children }: PropsWithChildren) => {
+const Footer = () => {
+    const { data, isLoading, error, queryParams, setQueryParams } = useListController<
+        Colaborador,
+        Colaborador & { page: number; limit: number }
+    >({ entity: 'colaboradores' })
     return (
-        <IconButton>
-            {children}
-        </IconButton>
+        <TableFooter>
+            <TableRow>
+                <TablePagination
+                    disabled={isLoading || !!error}
+                    count={data.data.length}
+                    onPageChange={(_, page) => {
+                        setQueryParams(prev => {
+                            return { ...prev, page: page }
+                        })
+                    }}
+                    page={queryParams.page || 0}
+                    rowsPerPage={10}
+                    rowsPerPageOptions={[10]}
+                />
+            </TableRow>
+        </TableFooter>
     )
 }
 
@@ -110,6 +144,6 @@ DataGrid.HeaderCell = HeaderCell
 DataGrid.Body = Body
 DataGrid.Row = Row
 DataGrid.Cell = Cell
-DataGrid.SortButton = SortButton
+DataGrid.Footer = Footer
 
 export { DataGrid }

@@ -46,14 +46,6 @@ const MUItheme = createTheme({
                 }
             }
         },
-        MuiTableContainer: {
-            styleOverrides: {
-                root: {
-                    boxShadow: '0px 0px 2px rgba(145, 158, 171, 0.2), 0px 12px 24px -4px rgba(145, 158, 171, 0.12)',
-                    borderRadius: 16,
-                }
-            }
-        },
         MuiChip: {
             styleOverrides: {
                 root: {
@@ -71,25 +63,11 @@ const MUItheme = createTheme({
                 }
             }
         },
-        MuiTableCell: {
+        MuiOutlinedInput: {
             styleOverrides: {
-                root: {
-                    fontSize: 14,
-                    lineHeight: 22 / 14
+                notchedOutline: {
+                    borderColor: 'rgba(145, 158, 171, .2)'
                 }
-            }
-        },
-        MuiListItemText: {
-            styleOverrides: {
-                primary: {
-                    fontSize: 14,
-                    lineHeight: 22 / 14,
-                    fontWeight: 500
-                }
-            }
-        },
-        MuiSwitch: {
-            styleOverrides: {
             }
         }
     }

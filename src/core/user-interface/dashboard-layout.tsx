@@ -1,7 +1,6 @@
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
 
 import { List } from '@/core/user-interface/list';
 import { Avatar } from '@/core/user-interface/avatar';
@@ -14,6 +13,8 @@ import { UserIcon } from '@/core/user-interface/icons/user';
 
 import avatarSRC from '@/assets/avatar1.png';
 import { useNavigate } from '../routing-provider/use-navigate';
+import { useTheme } from './context-provider';
+import { Base } from './base';
 
 
 
@@ -21,15 +22,13 @@ const drawerWidth = 280;
 
 export const DashboardLayout = () => {
     const navigate = useNavigate()
+    const theme = useTheme()
     return (
         <Box sx={{ display: 'flex' }}>
             <AppBar
                 position="fixed"
                 sx={{ bgcolor: 'white', boxShadow: 'none', width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
             >
-                <Toolbar sx={{ display: 'flex', justifyContent: 'end' }}>
-                    <Avatar hasBorder src={avatarSRC} alt='Avatar do usuario atual' />
-                </Toolbar>
             </AppBar>
             <Drawer
                 sx={{
@@ -38,15 +37,15 @@ export const DashboardLayout = () => {
                     '& .MuiDrawer-paper': {
                         width: drawerWidth,
                         boxSizing: 'border-box',
-                        borderRight: '1px dashed rgba(145, 158, 171, 0.2)'
+                        borderRight: theme.borders.dashed
                     },
                 }}
                 variant="permanent"
                 anchor="left"
             >
-                <Toolbar>
+                <Base _css={{ pl: theme => theme.spacing(2), pt: theme => theme.spacing(3), pb: theme => theme.spacing(2) }}>
                     <Logo />
-                </Toolbar>
+                </Base>
                 <List>
                     <List.ListItem>
                         <List.ListItemButton onClick={() => navigate('/')}>
@@ -56,7 +55,7 @@ export const DashboardLayout = () => {
                             <List.ListItemText>
                                 Colaboradores
                             </List.ListItemText>
-                            <List.ListItemIcon _css={{ ml: 'auto' }}>
+                            <List.ListItemIcon _css={{ pr: 1 }}>
                                 <ChevronRightIcon size="small" />
                             </List.ListItemIcon>
                         </List.ListItemButton>
@@ -67,10 +66,11 @@ export const DashboardLayout = () => {
                 component="main"
                 sx={{
                     flexGrow: 1,
-                    p: 3,
-                    pt: (theme) => `${theme.mixins.toolbar.minHeight}px`,
+                    p: 5,
+                    pt: 2,
                     maxWidth: theme => `calc(${theme.spacing(6)} + 1078px)`
-                }} >
+                }}>
+                <Avatar _css={{ ml: 'auto' }} hasBorder src={avatarSRC} alt='Avatar do usuario atual' />
                 <Outlet />
             </Box>
         </Box>

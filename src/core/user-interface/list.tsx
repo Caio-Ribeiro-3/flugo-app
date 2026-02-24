@@ -6,10 +6,11 @@ import MUIListItemButton from '@mui/material/ListItemButton';
 import MUIListItemIcon from '@mui/material/ListItemIcon';
 import MUIListItemText from '@mui/material/ListItemText';
 import type { BaseUserInterfaceProps } from './types';
+import { Typography } from './typography';
 
 const List = ({ children }: PropsWithChildren) => {
     return (
-        <MUIList>
+        <MUIList sx={{ py: 0 }}>
             {children}
         </MUIList>
     )
@@ -37,7 +38,7 @@ const ListItemButton = ({
     return (
         <MUIListItemButton
             onClick={onClick}
-            sx={_css}
+            sx={{ gap: 2, ..._css }}
         >
             {children}
         </MUIListItemButton>
@@ -46,18 +47,21 @@ const ListItemButton = ({
 }
 
 const ListItemIcon = ({ _css, children }: PropsWithChildren<BaseUserInterfaceProps>) => {
-    return <MUIListItemIcon
-        sx={_css}
-    >
-        {children}
-    </MUIListItemIcon>
-
+    return (
+        <MUIListItemIcon
+            sx={{ minWidth: 'auto', ..._css }}
+        >
+            {children}
+        </MUIListItemIcon>
+    )
 }
 
 const ListItemText = ({ children }: PropsWithChildren) => {
     return (
         <MUIListItemText>
-            {children}
+            <Typography variant='nav-item-default'>
+                {children}
+            </Typography>
         </MUIListItemText>
     )
 

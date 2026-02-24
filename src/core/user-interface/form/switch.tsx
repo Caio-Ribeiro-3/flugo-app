@@ -5,25 +5,6 @@ import { styled } from '@mui/material/styles';
 import type { BaseUserInterfaceProps } from '../types'
 import { theme as appTheme } from '../theme'
 import { Typography } from '../typography';
-/* switch */
-
-/* Auto layout */
-// display: flex;
-// flex - direction: row;
-// justify - content: center;
-// align - items: center;
-// padding: 3px 3px 3px 16px;
-
-// width: 33px;
-// height: 20px;
-
-// background: #22C55E;
-// border - radius: 50px;
-
-// /* Inside auto layout */
-// flex: none;
-// order: 0;
-// flex - grow: 0;
 
 const CustomSwitch = styled((props: SwitchProps) => (
     <MUISwitch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -89,6 +70,6 @@ export const Switch = ({
                 defaultChecked
             />
         )}
-        label={<Typography.Body2>{label}</Typography.Body2>}
+        label={<Typography variant='body2'>{label}</Typography>}
     />
 )

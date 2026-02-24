@@ -1,9 +1,7 @@
 import { useLocation, useNavigate } from "@tanstack/react-router"
 
 export const useQueryParams = () => {
-    const { search } = useLocation({
-        structuralSharing: true
-    })
+    const { search } = useLocation()
 
     const navigate = useNavigate()
 

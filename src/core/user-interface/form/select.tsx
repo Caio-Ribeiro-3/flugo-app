@@ -6,6 +6,7 @@ import MUISelect from "@mui/material/Select";
 import MUIMenuItem from "@mui/material/MenuItem";
 
 import type { BaseUserInterfaceProps } from "../types";
+import { ChevronRightIcon } from "../icons/chevron-right";
 
 interface SelectProps {
     label?: string;
@@ -20,7 +21,6 @@ const Select = ({
     onChange,
     disabled,
     value,
-    ...rest
 }: PropsWithChildren<BaseUserInterfaceProps<SelectProps>>) => (
     <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">{label}</InputLabel>
@@ -31,6 +31,9 @@ const Select = ({
             label={label}
             onChange={onChange}
             disabled={disabled}
+            IconComponent={() => (
+                <ChevronRightIcon _css={{ mr: 1, transform: 'rotate(90deg)' }} size="small" />
+            )}
         >
             {children}
         </MUISelect>

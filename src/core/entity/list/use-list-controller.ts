@@ -3,7 +3,7 @@ import { useCallback, useMemo } from "react"
 import { useQuery, type UseQueryProps } from "@/core/query-provider/context-provider"
 import { useQueryParams } from "@/core/routing-provider/use-query-params"
 
-export interface UseListControllerProps extends Omit<UseQueryProps, 'queryKey'> { }
+export type UseListControllerProps = Omit<UseQueryProps, 'queryKey'>
 
 export const useListController = <
     Model extends Record<string, unknown>,
@@ -14,7 +14,7 @@ export const useListController = <
 }: UseListControllerProps) => {
     const [queryParams, setQueryParams] = useQueryParams()
 
-    function applyPrefix(queryParams_: typeof queryParams) {
+    const applyPrefix = useCallback((queryParams_: typeof queryParams) => {
         const slicedQueryParams: Partial<QueryParams> = {}
         for (const key in queryParams_) {
             if (key.startsWith(entity)) {
@@ -22,11 +22,11 @@ export const useListController = <
             }
         }
         return slicedQueryParams as Partial<QueryParams>
-    }
+    }, [queryParams, entity])
 
     const queryParamsForEntity = useMemo<Partial<QueryParams>>(() => {
         return applyPrefix(queryParams)
-    }, [queryParams, entity])
+    }, [applyPrefix])
 
     const setQueryParamsForEntity = useCallback((cb: (prev: Partial<QueryParams>) => Partial<QueryParams>) => {
         setQueryParams((prev: Partial<QueryParams>) => {
@@ -41,7 +41,7 @@ export const useListController = <
             }
             return result
         })
-    }, [setQueryParams])
+    }, [setQueryParams, applyPrefix])
 
     const query = useQuery<Model>({
         entity,

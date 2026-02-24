@@ -1,11 +1,11 @@
 import type { ReactNode } from "react"
-import type { BaseIconProps } from "../../types"
+import type { BaseIconProps, BaseUserInterfaceProps } from "../../types"
 import { useTheme } from "../../context-provider"
 
 export function withImageAdapter(Icon: (props) => ReactNode) {
     return function ({
         size = 'medium'
-    }: BaseIconProps
+    }: BaseUserInterfaceProps<BaseIconProps>
     ) {
         const theme = useTheme()
         return (

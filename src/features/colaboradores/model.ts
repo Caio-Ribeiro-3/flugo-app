@@ -7,3 +7,5 @@ export interface Colaborador extends BaseRecord {
     status: boolean;
     role: boolean;
 }
+
+export const IDENTITY = 'colaboradores'
