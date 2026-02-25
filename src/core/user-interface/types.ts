@@ -4,7 +4,7 @@ export interface Theme {
     spacing(value: number): string
     typography: {
         fontFamily?: string;
-    } & Record<string, { fontSize: number; fontWeight: number; lineHeight: number; color: string; }>
+    } & Record<'body' | 'body2' | 'h4', { fontSize: number; fontWeight: number; lineHeight: number; color: string; }>
     palette: {
         primary: {
             main: string
@@ -47,11 +47,11 @@ type Spacing<Prefix extends string, Suffix extends Directions | never = Directio
 >
 
 export type BaseUserInterfaceProps<ComponentProps = unknown> = ComponentProps & {
-    _css?: React.CSSProperties & {
+    _css?: Omit<React.CSSProperties, 'gap'> & {
         display?: 'flex';
         alignItems?: 'flex-start' | 'center' | 'flex-end';
         justifyContent?: 'flex-start' | 'center' | 'flex-end' | 'space-between';
-        gap?: number | ((payload: Pick<Theme, 'spacing'>) => ReturnType<Theme['spacing']>);
+        gap?: (string | number | ((payload: Pick<Theme, 'spacing'>) => ReturnType<Theme['spacing']>));
         flexShrink?: number;
         flexGrow?: number;
         flexBasis?: number;

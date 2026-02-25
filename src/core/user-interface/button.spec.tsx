@@ -15,7 +15,7 @@ describe('Button Component', () => {
     const handleClick = vi.fn(() => { });
     const screen = await render(<Button onClick={handleClick}>Clique</Button>);
 
-    await userEvent.click(screen.getByText('Clique').element());
+    await userEvent.click(screen.getByText('Clique'));
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 

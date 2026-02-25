@@ -18,11 +18,12 @@ describe('TextInput Component', () => {
 
     it('deve permitir a digitação e disparar o evento onChange', async () => {
         const handleChange = vi.fn();
-        const { getByRole } = await render(
-            <TextInput label="Nome" onChange={handleChange} />
+        const { getByPlaceholder } = await render(
+            <TextInput placeholder='Meu input' label="Nome" onChange={handleChange} />
         );
 
-        const input = getByRole('textbox');
+        const input = getByPlaceholder('Meu input');
+        console.log(input)
         await userEvent.type(input, 'Olá Mundo');
 
         expect(input).toHaveValue('Olá Mundo');
@@ -30,8 +31,8 @@ describe('TextInput Component', () => {
     });
 
     it('deve estar desabilitado quando a prop disabled for passada', async () => {
-        const { getByRole } = await render(<TextInput label="Bloqueado" disabled />);
-        const input = getByRole('textbox');
+        const { getByPlaceholder } = await render(<TextInput placeholder='Meu input' label="Bloqueado" disabled />);
+        const input = getByPlaceholder('Meu input');
 
         expect(input).toBeDisabled();
     });

@@ -31,18 +31,6 @@ export const Password: Story = {
 export const WithError: Story = {
     args: {
         label: 'E-mail',
-        defaultValue: 'email-invalido',
-        // Nota: Se o withFormField injetar props de erro, use-as aqui:
-        helperText: 'Por favor, insira um e-mail válido.',
-        error: true,
-    },
-};
-
-export const Multiline: Story = {
-    args: {
-        label: 'Observações',
-        multiline: true,
-        rows: 4,
-        placeholder: 'Conte-nos mais sobre sua experiência...',
+        error: 'Por favor, insira um e-mail válido.',
     },
 };

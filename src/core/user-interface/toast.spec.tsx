@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { userEvent } from 'vitest/browser';
 import { render } from '../../test-utils';
 import { ToastProvider, useToast } from './toast';
@@ -16,11 +16,12 @@ describe('Toast System', () => {
             </ToastProvider>
         );
 
-        await userEvent.click(getByText('Disparar'));
+        await vi.waitFor(async () => {
+            await userEvent.click(getByText('Disparar'));
+            const toast = getByText('Toast Ativo');
+            await expect.element(toast).toBeVisible();
+        })
 
-        // No Vitest Browser, usamos expect.element para lidar com a presença no DOM
-        const toast = getByText('Toast Ativo');
-        await expect.element(toast).toBeVisible();
     });
 
     it('deve remover o toast após o fechamento', async () => {
@@ -30,11 +31,12 @@ describe('Toast System', () => {
             </ToastProvider>
         );
 
-        await userEvent.click(getByText('Disparar'));
+        await vi.waitFor(async () => {
+            await userEvent.click(getByText('Disparar'));
+            const closeButton = getByRole('button', { name: /close/i });
+            await userEvent.click(closeButton);
 
-        const closeButton = getByRole('button', { name: /close/i });
-        await userEvent.click(closeButton);
-
-        await expect.element(getByText('Toast Ativo')).not.toBeInTheDocument();
+            await expect.element(getByText('Toast Ativo')).not.toBeInTheDocument();
+        })
     });
 });

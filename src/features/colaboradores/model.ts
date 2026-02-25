@@ -5,7 +5,7 @@ export interface Colaborador extends BaseRecord {
     name: string;
     email: string;
     status: boolean;
-    role: boolean;
+    role: string;
 }
 
 export const IDENTITY = 'colaboradores'

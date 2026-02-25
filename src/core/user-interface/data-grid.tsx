@@ -12,6 +12,7 @@ import { useListController } from '../entity/list/use-list-controller';
 import type { Colaborador } from '@/features/colaboradores/model';
 import { Typography } from './typography';
 import { useTheme } from './context-provider';
+import type { Sort } from '../repository-provider/types';
 
 
 
@@ -93,7 +94,7 @@ const HeaderCell = ({
             }}>
             <TableSortLabel
                 active={!!queryParams[id]}
-                direction={queryParams[id]!}
+                direction={(queryParams[id]) as Sort[keyof Sort]}
                 onClick={() => {
                     setQueryParams(prev => ({ ...prev, [id]: !prev[id] ? 'asc' : prev[id] === 'asc' ? 'desc' : undefined }))
                 }}

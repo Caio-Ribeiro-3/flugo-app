@@ -31,14 +31,3 @@ export const Starting: Story = {
         percentage: 10,
     },
 };
-
-export const ContainerTest: Story = {
-    render: (args) => (
-        <div style={{ width: '300px', padding: '20px', border: '1px dashed #ccc' }}>
-            <LinearProgress {...args} />
-        </div>
-    ),
-    args: {
-        percentage: 85,
-    },
-};

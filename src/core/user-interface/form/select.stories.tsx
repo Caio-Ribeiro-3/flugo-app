@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Select } from './select';
+import { Select, Option } from './select';
 import { useState } from 'react';
 
 const meta: Meta<typeof Select> = {
@@ -20,9 +20,9 @@ export const Default: Story = {
                     value={val}
                     onChange={(e) => setVal(e.target.value)}
                 >
-                    <Select.Option value="1">Júnior</Select.Option>
-                    <Select.Option value="2">Pleno</Select.Option>
-                    <Select.Option value="3">Sênior</Select.Option>
+                    <Option value="1">Júnior</Option>
+                    <Option value="2">Pleno</Option>
+                    <Option value="3">Sênior</Option>
                 </Select>
             </div>
         );
@@ -34,21 +34,20 @@ export const Disabled: Story = {
         label: 'Campo Desabilitado',
         disabled: true,
         value: '',
-        children: <Select.Option value="1">Não selecionável</Select.Option>
+        children: <Option value="1">Não selecionável</Option>
     }
 };
 
 export const ErrorState: Story = {
     args: {
         label: 'Campo com Erro',
-        // Nota: Se withFormField injetar props de erro, você as testaria aqui
-        _css: { '& .MuiOutlinedInput-notchedOutline': { borderColor: 'error.main' } }
+        error: 'Um erro'
     },
     render: (args) => (
         <div style={{ width: 300 }}>
             <Select {...args}>
-                <Select.Option value="1">Opção A</Select.Option>
-                <Select.Option value="2">Opção B</Select.Option>
+                <Option value="1">Opção A</Option>
+                <Option value="2">Opção B</Option>
             </Select>
         </div>
     )

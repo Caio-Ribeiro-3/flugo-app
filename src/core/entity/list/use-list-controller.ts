@@ -2,7 +2,7 @@ import { useCallback, useMemo } from "react"
 
 import { useQuery, type UseQueryProps } from "@/core/query-provider/use-query"
 import { useQueryParams } from "@/core/routing-provider/use-query-params"
-import type { Pagination, Sort } from "@/core/repository-provider/types"
+import type { BaseRecord, Pagination, Sort } from "@/core/repository-provider/types"
 
 
 const DEFAULT_PAGINATION: Pagination = {
@@ -13,7 +13,7 @@ const DEFAULT_PAGINATION: Pagination = {
 export type UseListControllerProps = Omit<UseQueryProps, 'queryKey' | 'sort' | 'pagination'>
 
 export const useListController = <
-    Model extends Record<string, unknown>,
+    Model extends BaseRecord,
     QueryParams extends Record<string, unknown> = Record<string, unknown>
 >({
     entity,

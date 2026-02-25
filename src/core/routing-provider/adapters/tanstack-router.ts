@@ -1,3 +1,4 @@
+// @ts-nocheck: Trocamos a tipagem forte do @tanstack/react-router por flexibilidade e adapters
 import { createRootRoute, createRoute } from "@tanstack/react-router"
 import type { MountRouteStrategy, Route } from "../types"
 

@@ -12,5 +12,5 @@ export default defineConfig({
       // Or map 'src' to the 'src' directory directly
       // src: '/src',
     },
-  },
+  }
 })

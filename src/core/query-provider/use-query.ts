@@ -15,15 +15,16 @@ export interface UseQueryProps {
     pagination: Pagination
 }
 
-export interface UseQueryReturn<RecordData extends Record<string, unknown>> {
-    data: ListResult<BaseRecord<RecordData>>
+export interface UseQueryReturn<RecordData extends BaseRecord> {
+    data: ListResult<RecordData>
     error: Error | null
     isLoading: boolean
 }
 
 export const DEFAULT_STALE_TIME = 1000 * 60 * 5
 
-export function useQuery<RecordData extends Record<string, unknown>>({
+
+export function useQuery<RecordData extends BaseRecord>({
     entity,
     queryKey,
     staleTime = DEFAULT_STALE_TIME,
@@ -43,7 +44,7 @@ export function useQuery<RecordData extends Record<string, unknown>>({
 
     return useMemo(() => ({
         data: {
-            data: data?.data || [],
+            data: ((data?.data || []) as unknown as RecordData[]),
             page: data?.page || 0,
             perPage: data?.perPage || 0,
             total: data?.total || 0

@@ -1,5 +1,6 @@
+import type React from 'react';
+
 import FormHelperText from '@mui/material/FormHelperText';
-import type { ReactNode } from 'react';
 
 
 
@@ -20,11 +21,11 @@ import type { ReactNode } from 'react';
  *   error="Endereço de e-mail inválido" 
  * />
  */
-export function withFormField<T>(Component: (props: T) => ReactNode) {
-    return function ({ error, ...rest }: T & { error?: string; }) {
+export function withFormField<T extends {}>(Component: React.ComponentType<T>) {
+    return function ({ error, ...rest }: Partial<T> & { error?: string; }) {
         return (
             <div>
-                <Component {...rest} />
+                <Component {...rest as T} />
                 <FormHelperText error={!!error} >
                     {error}
                 </FormHelperText>

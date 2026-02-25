@@ -34,7 +34,7 @@ export const ToastProvider = memo(({ children }: PropsWithChildren) => {
             {state.map(({ id, variant, message }) => {
                 const onClose = () => setState(prev => prev.filter(toast => toast.id !== id))
                 return (
-                    <Snackbar open autoHideDuration={6000} onClose={onClose}>
+                    <Snackbar key={id} open autoHideDuration={6000} onClose={onClose}>
                         <Alert
                             onClose={onClose}
                             severity={variant}
