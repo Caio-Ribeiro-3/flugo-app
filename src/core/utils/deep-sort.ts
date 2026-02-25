@@ -18,7 +18,7 @@ import type { Sort } from "../repository-provider/types";
  * ];
  * const resultado = multiSort(frameworks, criterios);
  */
-export function deepSort<T extends Record<keyof Sort[number]['field'], any>>(arr: T[], sort: Sort): T[] {
+export function deepSort<T>(arr: T[], sort: Sort): T[] {
     if (!sort.length) return arr
     return [...arr].sort((a, b) => {
         for (let i = 0; i < sort.length; i++) {

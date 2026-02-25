@@ -5,11 +5,11 @@ import {
     collection,
     addDoc,
     query,
-    orderBy,
-    limit,
-    startAfter,
+    // orderBy,
+    // limit,
+    // startAfter,
     type DocumentData,
-    type OrderByDirection,
+    // type OrderByDirection,
 } from 'firebase/firestore/lite';
 import { initializeAppCheck, ReCaptchaEnterpriseProvider } from 'firebase/app-check';
 
@@ -40,7 +40,7 @@ export class FirebaseRepositoryProvider implements RepositoryProvider {
     async list<RecordType extends BaseRecord>({
         entity,
         pagination,
-        sort
+        // sort
     }: { entity: string; sort: Sort; pagination: Pagination; }): Promise<ListResult<RecordType>> {
         try {
             // Sort e paginação server side não são necessárias no momento 
