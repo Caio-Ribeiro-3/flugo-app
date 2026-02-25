@@ -1,4 +1,4 @@
-import type { ChangeEvent, PropsWithChildren } from "react";
+import { memo, type ChangeEvent, type PropsWithChildren } from "react";
 
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -7,6 +7,7 @@ import MUIMenuItem from "@mui/material/MenuItem";
 
 import type { BaseUserInterfaceProps } from "../types";
 import { ChevronRightIcon } from "../icons/chevron-right";
+import { withFormField } from "./with-form-field";
 
 interface SelectProps {
     label?: string;
@@ -15,7 +16,7 @@ interface SelectProps {
     disabled?: boolean;
 }
 
-const Select = ({
+const Select = memo(withFormField(({
     label,
     children,
     onChange,
@@ -38,7 +39,7 @@ const Select = ({
             {children}
         </MUISelect>
     </FormControl>
-)
+)))
 
 interface MenuItemProps {
     value?: string

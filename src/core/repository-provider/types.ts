@@ -3,15 +3,11 @@ export interface BaseRecord<RecordData extends Record<string, unknown> = Record<
 }
 
 export interface Pagination {
-    limit?: number;
-    offset?: number;
+    page: number;
+    perPage: number;
 }
 
 export type Sort = Record<string, 'asc' | 'desc'>
-
-export type FilterOperations = 'eq'
-
-export interface Filter<ActualFilters extends Record<string, any> = Record<string, any>> extends ActualFilters { }
 
 export interface ListResult<RecordType extends BaseRecord> extends Pagination {
     data: RecordType[];
@@ -21,8 +17,7 @@ export interface ListResult<RecordType extends BaseRecord> extends Pagination {
 export interface ListPayload {
     entity: string;
     sort?: Sort;
-    pagination?: Pagination;
-    filter?: Filter
+    pagination: Pagination;
 }
 
 export interface RepositoryProvider {

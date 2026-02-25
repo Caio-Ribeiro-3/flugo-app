@@ -1,9 +1,10 @@
-import type { BaseRecord, Filter, Pagination, ListResult, RepositoryProvider, Sort } from "../types";
+import type { BaseRecord, Pagination, ListResult, RepositoryProvider, Sort } from "../types";
 
 import avatar2 from '@/assets/avatar2.png'
 import avatar3 from '@/assets/avatar3.png'
 import avatar4 from '@/assets/avatar4.png'
 import avatar5 from '@/assets/avatar5.png'
+import { deepCopy } from "@/core/utils/deep-copy";
 
 export class MockRepositoryProvider implements RepositoryProvider {
     private _storage: Record<string, unknown[]> = {
@@ -43,18 +44,25 @@ export class MockRepositoryProvider implements RepositoryProvider {
     }
     list<RecordType extends BaseRecord>({
         entity,
-        filter,
         pagination,
         sort
-    }: { entity: string; sort: Sort; pagination: Pagination; filter: Filter; }): Promise<ListResult<RecordType>> {
-        const entityStorage = this._storage[entity]
-        if (!entityStorage) throw new Error('Entidade nao existe em MockRepositoryProvider')
+    }: { entity: string; sort: Sort; pagination: Pagination; }): Promise<ListResult<RecordType>> {
+        if (!this._storage[entity]) throw new Error('Entidade nao existe em MockRepositoryProvider')
+        const entityStorage = deepCopy(this._storage[entity]) as Record<string, any>[]
+
+        for (const key in sort) {
+            entityStorage.sort((a, b) => {
+                if (sort[key] === 'desc') return a[key] < b[key] ? 1 : a[key] > b[key] ? -1 : 0
+                return a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0
+            })
+        }
+        entityStorage.splice(pagination.page * pagination.perPage, pagination.perPage)
 
         return new Promise(resolve => setTimeout(() => resolve({
             data: entityStorage as RecordType[],
-            limit: pagination?.limit,
-            offset: pagination?.offset,
-            total: entityStorage.length
+            perPage: pagination.perPage,
+            page: pagination.perPage * pagination.page,
+            total: this._storage[entity].length
         }), 1000))
     }
     async create<RecordType extends BaseRecord>({
@@ -67,7 +75,6 @@ export class MockRepositoryProvider implements RepositoryProvider {
             entityStorage = this._storage[entity]
         }
 
-        console.log({ entity, payload })
         const newEntity = { id: String(Math.random()), ...payload }
 
         entityStorage.push(newEntity)

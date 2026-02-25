@@ -12,6 +12,7 @@ import { TextInput } from "@/core/user-interface/form/text-input";
 import { Switch } from "@/core/user-interface/form/switch";
 import { Select } from "@/core/user-interface/form/select";
 import { useNavigate } from "@/core/routing-provider/use-navigate";
+import type { Colaborador } from "../model";
 
 
 
@@ -26,6 +27,8 @@ export const CreateColaboradoresPage = () => {
     })
 
     const [step, setStep] = useState(0)
+    const [form, setForm] = useState<Partial<Colaborador>>({ status: true })
+    const [errors, setErrors] = useState<Partial<Record<keyof Colaborador, string>>>({})
 
     return (
         <Base
@@ -92,14 +95,29 @@ export const CreateColaboradoresPage = () => {
                     </Typography>
                     {!step ? (
                         <>
-                            <TextInput label='Título' />
-                            <TextInput label='E-mail' type='email' />
-                            <Switch _css={{ mt: 1 }} label='Ativar ao criar' />
+                            <TextInput
+                                label='Título'
+                                onChange={e => setForm(prev => ({ ...prev, name: e.target.value }))}
+                                error={!form.name ? 'Voce deve digitar um título' : form.name.length < 4 ? 'Um título deve ter ao menos 5 caracteres' : undefined}
+                            />
+                            <TextInput
+                                label='E-mail'
+                                type='email'
+                                onChange={e => setForm(prev => ({ ...prev, email: e.target.value }))}
+                                error={!form.email ? 'Voce deve digitar um email' : form.email.length < 4 ? 'Um email deve ter ao menos 5 caracteres' : undefined}
+                            />
+                            <Switch
+                                _css={{ mt: 1 }}
+                                label='Ativar ao criar'
+                                onChange={e => setForm(prev => ({ ...prev, status: e.target.checked }))}
+                            />
                         </>
                     ) : (
                         <Select
                             disabled={isLoading || step > 1}
                             label='Selecione um departamento'
+                            onChange={e => setForm(prev => ({ ...prev, role: e.target.value! }))}
+                            error={!form.email ? 'Voce deve escolher um departamento' : undefined}
                         >
                             {DEPARTAMENTOS.map(dep => (
                                 <Select.MenuItem value={dep}>{dep}</Select.MenuItem>
@@ -117,7 +135,7 @@ export const CreateColaboradoresPage = () => {
                                     setStep(prev => prev + 1)
                                 }
                                 if (!!step) {
-                                    mutate({})
+                                    mutate(form)
                                 }
                             }}>
                             {step ? 'Concluir' : 'Próximo'}

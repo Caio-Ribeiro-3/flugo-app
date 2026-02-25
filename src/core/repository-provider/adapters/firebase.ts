@@ -3,9 +3,16 @@ import {
     getFirestore,
     getDocs,
     collection,
-    addDoc
+    addDoc,
+    query,
+    orderBy,
+    limit,
+    startAfter,
+    type DocumentData,
+    type OrderByDirection,
 } from 'firebase/firestore/lite';
-import type { BaseRecord, Filter, Pagination, ListResult, RepositoryProvider, Sort } from "../types";
+
+import type { BaseRecord, Pagination, ListResult, RepositoryProvider, Sort } from "../types";
 
 
 
@@ -25,12 +32,24 @@ export class FirebaseRepositoryProvider implements RepositoryProvider {
     }
     async list<RecordType extends BaseRecord>({
         entity,
-        filter,
         pagination,
         sort
-    }: { entity: string; sort: Sort; pagination: Pagination; filter: Filter; }): Promise<ListResult<RecordType>> {
+    }: { entity: string; sort: Sort; pagination: Pagination; }): Promise<ListResult<RecordType>> {
         try {
-            const querySnapshot = await getDocs(collection(this.firestore, entity));
+            const commands = []
+            for (const key in sort) {
+                commands.push(orderBy(key, sort[key] as unknown as OrderByDirection))
+            }
+            if (pagination.page > 1) {
+                commands.push(startAfter((pagination.page - 1) * pagination.perPage))
+            }
+            const entityRef = collection(this.firestore, entity)
+            const q = query(
+                entityRef,
+                ...commands,
+                limit(pagination.perPage)
+            );
+            const querySnapshot = await getDocs(q);
             const data: RecordType[] = []
             querySnapshot.forEach((doc) => {
                 data.push({
@@ -40,8 +59,8 @@ export class FirebaseRepositoryProvider implements RepositoryProvider {
             });
             return {
                 data,
-                limit: 10,
-                offset: 0
+                total: data.length,
+                ...pagination
             }
         } catch (e) {
             throw new Error('Não foi possível executar o comando de listagem do FirebaseRepositoryProvider')
@@ -52,12 +71,7 @@ export class FirebaseRepositoryProvider implements RepositoryProvider {
         payload
     }: { entity: string; payload: Partial<RecordType>; }): Promise<void> {
         try {
-            await addDoc(collection(this.firestore, entity), {
-                name: 'Mari Froes',
-                email: 'marifroes@flugo.com',
-                role: 'Marketing',
-                status: true
-            });
+            await addDoc(collection(this.firestore, entity), payload as DocumentData);
         } catch (e) {
             throw new Error('Não foi possível executar o comando de criação do FirebaseRepositoryProvider')
         }

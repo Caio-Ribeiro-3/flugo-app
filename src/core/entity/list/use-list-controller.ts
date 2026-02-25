@@ -1,7 +1,14 @@
-import { useCallback, useMemo } from "react"
+import { useCallback, useMemo, useState } from "react"
 
 import { useQuery, type UseQueryProps } from "@/core/query-provider/context-provider"
 import { useQueryParams } from "@/core/routing-provider/use-query-params"
+import type { Pagination, Sort } from "@/core/repository-provider/types"
+
+
+const DEFAULT_PAGINATION: Pagination = {
+    perPage: 10,
+    page: 1
+}
 
 export type UseListControllerProps = Omit<UseQueryProps, 'queryKey'>
 
@@ -43,15 +50,23 @@ export const useListController = <
         })
     }, [setQueryParams, applyPrefix])
 
+
+    const sort = queryParamsForEntity
+    const pagination = DEFAULT_PAGINATION
+
     const query = useQuery<Model>({
         entity,
-        queryKey: ['list', queryParamsForEntity],
-        staleTime
+        queryKey: ['list', sort, pagination],
+        staleTime,
+        sort,
+        pagination
     })
 
     return {
         ...query,
         queryParams: queryParamsForEntity,
-        setQueryParams: setQueryParamsForEntity
+        setQueryParams: setQueryParamsForEntity,
+        sort,
+        pagination
     }
 }

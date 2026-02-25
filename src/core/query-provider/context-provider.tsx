@@ -9,7 +9,7 @@ import {
 } from '@tanstack/react-query'
 
 import { useRepository } from '@/core/repository-provider/context-provider'
-import type { BaseRecord, ListResult } from '@/core/repository-provider/types'
+import type { BaseRecord, ListResult, Pagination, Sort } from '@/core/repository-provider/types'
 
 import type { QueryClient } from './types'
 import { useToast } from '../user-interface/toast'
@@ -34,13 +34,14 @@ export interface UseQueryProps {
     entity: string
     queryKey: (string | object)[]
     staleTime?: number
+    sort: Sort
+    pagination: Pagination
 }
 
 export interface UseQueryReturn<RecordData extends Record<string, unknown>> {
     data: ListResult<BaseRecord<RecordData>>
     error: Error | null
     isLoading: boolean
-
 }
 
 export const DEFAULT_STALE_TIME = 1000 * 60 * 5
@@ -48,23 +49,27 @@ export const DEFAULT_STALE_TIME = 1000 * 60 * 5
 export function useQuery<RecordData extends Record<string, unknown>>({
     entity,
     queryKey,
-    staleTime = DEFAULT_STALE_TIME
+    staleTime = DEFAULT_STALE_TIME,
+    sort,
+    pagination
 }: UseQueryProps): UseQueryReturn<RecordData> {
     const repository = useRepository()
     const { data, error, isLoading } = useQueryTS({
         queryKey: [entity, queryKey],
         queryFn: () => repository.list({
-            entity
+            entity,
+            sort,
+            pagination
         }),
-        staleTime
+        staleTime,
     })
 
     return useMemo(() => ({
         data: {
             data: data?.data || [],
-            limit: data?.limit,
-            offset: data?.offset,
-            total: data?.total
+            page: data?.page || 0,
+            perPage: data?.perPage || 0,
+            total: data?.total || 0
         },
         error,
         isLoading,
@@ -81,7 +86,7 @@ export interface UseMutationProps {
     onError?: () => void;
 }
 
-export function useMutation({
+export function useMutation<T>({
     entity,
     onSuccess,
     onError,
@@ -90,7 +95,7 @@ export function useMutation({
     const queryClient = useQueryclient()
     const notify = useToast()
 
-    const { mutate: mutateTS, data, error, isPending: isLoading } = useMutationTS<BaseRecord<Record<string, unknown>>, Error, BaseRecord<Record<string, unknown>>>({
+    const { mutate: mutateTS, data, error, isPending: isLoading } = useMutationTS<T, Error, T>({
         mutationFn: (payload) => repository.create({
             entity,
             payload
@@ -103,7 +108,7 @@ export function useMutation({
             if (onError) {
                 onError()
             } else {
-                notify({ variant: 'error', message: `Não foi possível criar novo(a) ${entity}` })
+                notify({ variant: 'error', message: `Não foi possível criar novo registro de ${entity}` })
             }
         }
     })

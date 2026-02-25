@@ -1,4 +1,4 @@
-import MUISwitch from '@mui/material/Switch'
+import MUISwitch, { type SwitchProps as MUISwitchProps } from '@mui/material/Switch'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import { styled } from '@mui/material/styles';
 
@@ -6,7 +6,7 @@ import type { BaseUserInterfaceProps } from '../types'
 import { theme as appTheme } from '../theme'
 import { Typography } from '../typography';
 
-const CustomSwitch = styled((props: SwitchProps) => (
+const CustomSwitch = styled((props: MUISwitchProps) => (
     <MUISwitch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
 ))(({ theme }) => ({
     width: 33,
@@ -55,6 +55,7 @@ const CustomSwitch = styled((props: SwitchProps) => (
 
 export interface SwitchProps {
     label?: string;
+    onChange?: (event: React.ChangeEvent<HTMLInputElement, Element>) => void
 }
 
 export const Switch = ({

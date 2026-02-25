@@ -81,7 +81,7 @@ export const ListColaboradoresPage = () => {
                             </DataGrid.Cell>
                         </DataGrid.Row>
                     ) : data.data.map(row => (
-                        <DataGrid.Row key={row.email}>
+                        <DataGrid.Row key={row.id}>
                             <DataGrid.Cell>
                                 <Base
                                     _css={{
