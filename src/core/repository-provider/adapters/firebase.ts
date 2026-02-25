@@ -13,6 +13,7 @@ import {
 } from 'firebase/firestore/lite';
 
 import type { BaseRecord, Pagination, ListResult, RepositoryProvider, Sort } from "../types";
+import { error } from "@/core/utils/logger";
 
 
 
@@ -63,6 +64,7 @@ export class FirebaseRepositoryProvider implements RepositoryProvider {
                 ...pagination
             }
         } catch (e) {
+            error(e)
             throw new Error('Não foi possível executar o comando de listagem do FirebaseRepositoryProvider')
         }
     }
@@ -73,6 +75,7 @@ export class FirebaseRepositoryProvider implements RepositoryProvider {
         try {
             await addDoc(collection(this.firestore, entity), payload as DocumentData);
         } catch (e) {
+            error(e)
             throw new Error('Não foi possível executar o comando de criação do FirebaseRepositoryProvider')
         }
     }

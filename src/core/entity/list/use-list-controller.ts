@@ -1,6 +1,6 @@
-import { useCallback, useMemo, useState } from "react"
+import { useCallback, useMemo } from "react"
 
-import { useQuery, type UseQueryProps } from "@/core/query-provider/context-provider"
+import { useQuery, type UseQueryProps } from "@/core/query-provider/use-query"
 import { useQueryParams } from "@/core/routing-provider/use-query-params"
 import type { Pagination, Sort } from "@/core/repository-provider/types"
 
@@ -10,7 +10,7 @@ const DEFAULT_PAGINATION: Pagination = {
     page: 1
 }
 
-export type UseListControllerProps = Omit<UseQueryProps, 'queryKey'>
+export type UseListControllerProps = Omit<UseQueryProps, 'queryKey' | 'sort' | 'pagination'>
 
 export const useListController = <
     Model extends Record<string, unknown>,
@@ -29,11 +29,11 @@ export const useListController = <
             }
         }
         return slicedQueryParams as Partial<QueryParams>
-    }, [queryParams, entity])
+    }, [entity])
 
     const queryParamsForEntity = useMemo<Partial<QueryParams>>(() => {
         return applyPrefix(queryParams)
-    }, [applyPrefix])
+    }, [queryParams, applyPrefix])
 
     const setQueryParamsForEntity = useCallback((cb: (prev: Partial<QueryParams>) => Partial<QueryParams>) => {
         setQueryParams((prev: Partial<QueryParams>) => {
@@ -48,10 +48,10 @@ export const useListController = <
             }
             return result
         })
-    }, [setQueryParams, applyPrefix])
+    }, [setQueryParams, applyPrefix, entity])
 
 
-    const sort = queryParamsForEntity
+    const sort = queryParamsForEntity as Sort
     const pagination = DEFAULT_PAGINATION
 
     const query = useQuery<Model>({

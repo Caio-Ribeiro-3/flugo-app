@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { useMutation } from "@/core/query-provider/context-provider";
+import { useMutation } from "@/core/query-provider/use-mutation";
 
 import { Button } from '@/core/user-interface/button';
 import { Typography } from '@/core/user-interface/typography';
@@ -28,7 +28,7 @@ export const CreateColaboradoresPage = () => {
 
     const [step, setStep] = useState(0)
     const [form, setForm] = useState<Partial<Colaborador>>({ status: true })
-    const [errors, setErrors] = useState<Partial<Record<keyof Colaborador, string>>>({})
+    // const [errors, setErrors] = useState<Partial<Record<keyof Colaborador, string>>>({})
 
     return (
         <Base
@@ -134,7 +134,7 @@ export const CreateColaboradoresPage = () => {
                                 if (step < 2) {
                                     setStep(prev => prev + 1)
                                 }
-                                if (!!step) {
+                                if (step) {
                                     mutate(form)
                                 }
                             }}>

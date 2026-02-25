@@ -15,7 +15,7 @@ import type { Colaborador } from "../model";
 
 
 export const ListColaboradoresPage = () => {
-    const { data, isLoading, error, queryParams, setQueryParams } = useListController<
+    const { data, isLoading, error } = useListController<
         Colaborador,
         Colaborador & { page: number; limit: number }
     >({ entity: 'colaboradores' })

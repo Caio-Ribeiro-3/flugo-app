@@ -80,7 +80,7 @@ const HeaderCell = ({
     align = 'left',
     children
 }: PropsWithChildren<HeaderCellProps>) => {
-    const { data, isLoading, error, queryParams, setQueryParams } = useListController<
+    const { queryParams, setQueryParams } = useListController<
         Colaborador,
         Colaborador & { page: number; limit: number }
     >({ entity: 'colaboradores' })

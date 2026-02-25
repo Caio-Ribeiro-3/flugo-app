@@ -15,8 +15,6 @@ export interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTML
     variant?: 'contained' | 'outlined' | 'text';
     /** Define a paleta de cores aplicada */
     color?: 'primary' | 'neutral'
-    /** Define o tamanho do botão */
-    size?: 'large'
 }
 
 /**
@@ -31,7 +29,6 @@ export interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTML
 export const Button = ({
     variant = 'contained',
     color = 'primary',
-    size = 'large',
     ...rest
 }: PropsWithChildren<ButtonProps>) => {
     const theme = useTheme()

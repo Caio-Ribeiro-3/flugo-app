@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { LinearProgress } from './linear-progress';
 
 const meta: Meta<typeof LinearProgress> = {
