@@ -1,26 +1,27 @@
 import type { HTMLAttributes, DetailedHTMLProps, PropsWithChildren } from 'react';
 import MUIChip from '@mui/material/Chip';
 
+
+
+/**
+ * Interface para as propriedades do componente Chip.
+ * Estende os atributos nativos de div e define variantes de status.
+ */
 export interface ChipProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-    variant?: 'filled' | 'outlined';
+    /** Define o estilo visual do chip. */
+    variant?: 'filled';
+    /** Define a paleta de cores semânticas para estados de sucesso, erro ou padrão. */
     color?: 'primary' | 'success' | 'error'
 }
+
 /**
- * @component Chip
- * @description 
- * Esta é uma **Facade** para o componente de Chip da biblioteca externa (MUI).
- * 
- * **Propósito:**
- * 1. Padronizar a interface de botões no projeto.
- * 2. Isolar a dependência externa (facilita trocas futuras de biblioteca).
- * 3. Simplificar as propriedades, expondo apenas o necessário para o design system local.
- *
- * @param {Object} props - Propriedades do componente.
- * @param {'primary' | 'secondary' | 'danger'} [props.variant='primary'] - Define o estilo visual seguindo os tokens da empresa.
- * @param {function} props.onClick - Handler de clique traduzido para o padrão do projeto.
+ * Componente Chip (Facade).
+ * Utilizado para exibir etiquetas, status ou categorias com estilização baseada em tokens de transparência.
  * 
  * @example
- * <Chip>Meu Chip</Chip>
+ * <Chip color='primary'>
+ *  Ativo
+ * </Chip>
  */
 export const Chip = ({
     variant = 'filled',

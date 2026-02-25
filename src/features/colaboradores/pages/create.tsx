@@ -120,7 +120,7 @@ export const CreateColaboradoresPage = () => {
                             error={!form.email ? 'Voce deve escolher um departamento' : undefined}
                         >
                             {DEPARTAMENTOS.map(dep => (
-                                <Select.MenuItem value={dep}>{dep}</Select.MenuItem>
+                                <Select.Option value={dep}>{dep}</Select.Option>
                             ))}
                         </Select>
                     )}

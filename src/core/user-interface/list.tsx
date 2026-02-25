@@ -8,6 +8,24 @@ import MUIListItemText from '@mui/material/ListItemText';
 import type { BaseUserInterfaceProps } from './types';
 import { Typography } from './typography';
 
+
+
+/**
+ * Componente de lista estruturada (Facade) utilizando Compound Components.
+ * 
+ * Padroniza a hierarquia de listas, botões de ação e ícones, garantindo
+ * que o texto utilize a tipografia 'nav-item-default' do sistema.
+ * 
+ * @example
+ * <List>
+ *   <List.ListItem>
+ *     <List.ListItemButton onClick={() => console.log('clicou')}>
+ *       <List.ListItemIcon><UserIcon /></List.ListItemIcon>
+ *       <List.ListItemText>Perfil do Usuário</List.ListItemText>
+ *     </List.ListItemButton>
+ *   </List.ListItem>
+ * </List>
+ */
 const List = ({ children }: PropsWithChildren) => {
     return (
         <MUIList sx={{ py: 0 }}>

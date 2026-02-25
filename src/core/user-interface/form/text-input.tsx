@@ -10,6 +10,19 @@ export interface TextInputProps extends DetailedHTMLProps<InputHTMLAttributes<HT
     label?: string;
 }
 
+/**
+ * Componente de entrada de texto (Facade).
+ * 
+ * Renderiza um input, conforme regras do Design System da empresa.
+ * 
+ * @example
+ * <TextInput 
+ *   label="Nome Completo" 
+ *   placeholder="Digite seu nome" 
+ *   onChange={(e) => console.log(e.target.value)} 
+ * />
+ */
+
 export const TextInput = memo(withFormField((props: BaseUserInterfaceProps<TextInputProps>) => {
     return (
         <TextField fullWidth {...props} />

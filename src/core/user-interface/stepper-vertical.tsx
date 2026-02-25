@@ -9,6 +9,33 @@ import MUITimelineDot from '@mui/lab/TimelineDot';
 import { CheckIcon } from './icons/check';
 import { Typography } from './typography';
 
+
+
+/**
+ * Componente de fluxo de etapas vertical (StepperVertical).
+ * 
+ * Utiliza a estrutura de Timeline para criar um indicador de progresso 
+ * sequencial. O estado visual (isCurrent/isCompleted) é compartilhado 
+ * via contexto entre os sub-componentes.
+ * 
+ * @example
+ * <StepperVertical>
+ *   <StepperVertical.StepperVerticalItem isCompleted>
+ *     <StepperVertical.StepperVerticalSeparator>
+ *       <StepperVertical.StepperVerticalDot>1</StepperVertical.StepperVerticalDot>
+ *       <StepperVertical.StepperVerticalConnector />
+ *     </StepperVertical.StepperVerticalSeparator>
+ *     <StepperVertical.StepperVerticalContent>Etapa Concluída</StepperVertical.StepperVerticalContent>
+ *   </StepperVertical.StepperVerticalItem>
+ * 
+ *   <StepperVertical.StepperVerticalItem isCurrent>
+ *     <StepperVertical.StepperVerticalSeparator>
+ *       <StepperVertical.StepperVerticalDot>2</StepperVertical.StepperVerticalDot>
+ *     </StepperVertical.StepperVerticalSeparator>
+ *     <StepperVertical.StepperVerticalContent>Etapa Atual</StepperVertical.StepperVerticalContent>
+ *   </StepperVertical.StepperVerticalItem>
+ * </StepperVertical>
+ */
 const StepperVertical = ({ children }: PropsWithChildren) => {
     return (
         <MUITimeline sx={{ my: 0, p: 0 }}>{children}</MUITimeline>

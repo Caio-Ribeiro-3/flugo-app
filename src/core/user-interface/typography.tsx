@@ -3,25 +3,29 @@ import MUITypography from '@mui/material/Typography';
 import type { BaseUserInterfaceProps } from './types';
 import { useTheme } from './context-provider';
 
+
+
 export interface TypographyProps {
-    variant?: 'h1' | 'h4' | 'body1' | 'nav-item-default' | 'desktop-h4' | 'table-head' | 'body2' | 'subtitle2';
+    variant?: 'body1' | 'nav-item-default' | 'desktop-h4' | 'table-head' | 'body2' | 'subtitle2';
     component?: string;
     color?: 'text.primary' | 'text.secondary'
     disabled?: boolean;
 }
+
 /**
- * @component Typography
- * @description 
- * Esta é uma **Facade** para o componente de botão da biblioteca externa (MUI).
+ * Componente de Tipografia (Facade).
  * 
- * **Propósito:**
- * 1. Padronizar a interface de botões no projeto.
- * 2. Isolar a dependência externa (facilita trocas futuras de biblioteca).
- * 3. Simplificar as propriedades, expondo apenas o necessário para o design system local.
+ * Centraliza as definições de texto do projeto, mapeando variantes de design 
+ * para estilos CSS específicos (fontSize, fontWeight, lineHeight).
  * 
  * @example
- * <Typography variant="h1">
- *   Lorem Ipsum
+ * <Typography variant="desktop-h4" color="text.primary">
+ *   Título da Página
+ * </Typography>
+ * 
+ * @example
+ * <Typography variant="nav-item-default" disabled>
+ *   Menu Lateral
  * </Typography>
  */
 export const Typography = memo(({

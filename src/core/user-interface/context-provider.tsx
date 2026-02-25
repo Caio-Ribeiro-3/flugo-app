@@ -5,6 +5,8 @@ import { theme } from './theme';
 import type { Theme } from './types';
 import { ToastProvider } from './toast';
 
+
+
 const MUItheme = createTheme({
     typography: {
         fontFamily: 'Public Sans, sans-serif',
@@ -73,8 +75,21 @@ const MUItheme = createTheme({
     }
 })
 
-export const UserInterfaceContext = createContext<Theme | undefined>(undefined)
-
+const UserInterfaceContext = createContext<Theme | undefined>(undefined)
+/**
+ * Provedor central da interface de usuário (Design System Facade).
+ * 
+ * Este componente unifica o estilo de dependencias externas e o contexto de tema customizado da aplicação.
+ * 
+ * @example
+ * // Envolva a raiz da aplicação ou o decorator do Storybook:
+ * <UserInterfaceProvider>
+ *   <App />
+ * </UserInterfaceProvider>
+ * 
+ * // Para consumir o tema customizado em qualquer componente:
+ * const theme = useTheme();
+ */
 export const UserInterfaceProvider = ({ children }: PropsWithChildren) => {
     return (
         <UserInterfaceContext.Provider value={theme}>

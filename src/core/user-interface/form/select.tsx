@@ -10,12 +10,30 @@ import { ChevronRightIcon } from "../icons/chevron-right";
 import { withFormField } from "./with-form-field";
 
 interface SelectProps {
+    /** Label para o campo */
     label?: string;
+    /** Valor atual */
     value?: string;
-    onChange?(event: ChangeEvent<Omit<HTMLInputElement, "value"> & { value: string; }, Element>): void
+    /** Callback para evento onchange */
+    onChange?(event: ChangeEvent<Omit<HTMLInputElement, "value"> & {
+        value: string;
+    }>): void
+    /** Desabilitar/habilitar campo */
     disabled?: boolean;
 }
 
+/**
+ * Componente de seleção (Facade) com suporte a campos de formulário.
+ * 
+ * Padroniza o visual do Select do Material UI, injetando um ícone customizado
+ * e utilizando o HOC `withFormField` para gerenciamento de estados de erro/label.
+ * 
+ * @example
+ * <Select label="Cargo" value={value} onChange={handleChange}>
+ *   <Select.Option value="admin">Administrador</Select.Option>
+ *   <Select.Option value="user">Usuário Comum</Select.Option>
+ * </Select>
+ */
 const Select = memo(withFormField(({
     label,
     children,
@@ -30,7 +48,7 @@ const Select = memo(withFormField(({
             id="demo-simple-select"
             value={value}
             label={label}
-            onChange={onChange}
+            onChange={e => onChange?.(e)}
             disabled={disabled}
             IconComponent={() => (
                 <ChevronRightIcon _css={{ mr: 1, transform: 'rotate(90deg)' }} size="small" />
@@ -45,10 +63,10 @@ interface MenuItemProps {
     value?: string
 }
 
-const MenuItem = ({ _css, ...rest }: PropsWithChildren<BaseUserInterfaceProps<MenuItemProps>>) => (
+const Option = ({ _css, ...rest }: PropsWithChildren<BaseUserInterfaceProps<MenuItemProps>>) => (
     <MUIMenuItem {...rest} sx={_css} />
 )
 
-Select.MenuItem = MenuItem
+Select.Option = Option
 
 export { Select }

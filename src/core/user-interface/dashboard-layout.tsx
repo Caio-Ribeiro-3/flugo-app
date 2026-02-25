@@ -19,7 +19,22 @@ import { Base } from './base';
 
 
 const drawerWidth = 280;
-
+/**
+ * Componente de layout principal para a área de Dashboard.
+ * 
+ * Gerencia a estrutura global da página, incluindo:
+ * - Drawer (Sidebar) lateral fixa com navegação.
+ * - AppBar superior para ações globais.
+ * - Área de conteúdo principal com suporte a renderização de rotas (Outlet).
+ * - Avatar de usuário persistente.
+ * 
+ * @example
+ * // Utilizado geralmente na definição de rotas principais
+ * 
+ * <Route element={<DashboardLayout />}>
+ *   <Route path="colaboradores" element={<ColaboradoresPage />} />
+ * </Route>
+ */
 export const DashboardLayout = () => {
     const navigate = useNavigate()
     const theme = useTheme()

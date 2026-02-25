@@ -2,27 +2,26 @@ import type { HTMLAttributes, DetailedHTMLProps, PropsWithChildren } from 'react
 import MUIAvatar from '@mui/material/Avatar';
 import type { BaseUserInterfaceProps } from './types';
 
+
+
+/**
+ * Interface para as propriedades do componente Avatar.
+ */
 export interface AvatarProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, BaseUserInterfaceProps {
+    /** URL da imagem a ser exibida */
     src?: string;
+    /** Texto alternativo para acessibilidade e fallback */
     alt?: string;
+    /** Se verdadeiro, adiciona uma borda dupla estilizada ao redor do avatar */
     hasBorder?: boolean;
 }
+
 /**
- * @component Avatar
- * @description 
- * Esta é uma **Facade** para o componente de Avatar da biblioteca externa (MUI).
- * 
- * **Propósito:**
- * 1. Padronizar a interface de botões no projeto.
- * 2. Isolar a dependência externa (facilita trocas futuras de biblioteca).
- * 3. Simplificar as propriedades, expondo apenas o necessário para o design system local.
- *
- * @param {Object} props - Propriedades do componente.
- * @param {'primary' | 'secondary' | 'danger'} [props.variant='primary'] - Define o estilo visual seguindo os tokens da empresa.
- * @param {function} props.onClick - Handler de clique traduzido para o padrão do projeto.
+ * Componente de Avatar customizado.
+ * Atua como um facade para exibição de fotos de perfil ou iniciais.
  * 
  * @example
- * <Avatar />
+ * <Avatar src="url-da-foto.jpg" alt="João Silva" hasBorder />
  */
 export const Avatar = ({
     src,

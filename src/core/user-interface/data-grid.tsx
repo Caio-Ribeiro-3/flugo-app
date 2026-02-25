@@ -13,6 +13,34 @@ import type { Colaborador } from '@/features/colaboradores/model';
 import { Typography } from './typography';
 import { useTheme } from './context-provider';
 
+
+
+/**
+ * Componente de tabela de dados (DataGrid) baseado em Compound Components.
+ * 
+ * Centraliza a lógica de paginação, ordenação e estilização de tabelas,
+ * utilizando internamente o `useListController` para gerenciar o estado dos dados.
+ * 
+ * @example
+ * <DataGrid>
+ *   <DataGrid.Header>
+ *     <DataGrid.Row>
+ *       <DataGrid.HeaderCell id="nome">Nome</DataGrid.HeaderCell>
+ *       <DataGrid.HeaderCell id="email">E-mail</DataGrid.HeaderCell>
+ *     </DataGrid.Row>
+ *   </DataGrid.Header>
+ *   <DataGrid.Body>
+ *     {data.map(item => (
+ *       <DataGrid.Row key={item.id}>
+ *         <DataGrid.Cell>{item.nome}</DataGrid.Cell>
+ *         <DataGrid.Cell>{item.email}</DataGrid.Cell>
+ *       </DataGrid.Row>
+ *     ))}
+ *   </DataGrid.Body>
+ *   <DataGrid.Footer />
+ * </DataGrid>
+ */
+
 const DataGrid = ({ children }: PropsWithChildren) => {
     const theme = useTheme()
     return (

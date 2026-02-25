@@ -1,38 +1,34 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render } from 'vitest-browser-react'
 import { userEvent } from 'vitest/browser'
 import { Button } from './button';
-import { UserInterfaceProvider } from './context-provider';
+import { render } from '../../test-utils';
 
-// Mock do provedor de tema se necessário, ou use o real se for leve
-const renderWithTheme = (ui: React.ReactElement) => {
-  return render(<UserInterfaceProvider>{ui}</UserInterfaceProvider>);
-};
+
 
 describe('Button Component', () => {
   it('deve renderizar o texto corretamente', async () => {
-    const screen = await renderWithTheme(<Button>Enviar</Button>);
+    const screen = await render(<Button>Enviar</Button>);
     expect(screen.getByText('Enviar')).toBeDefined();
   });
 
   it('deve disparar o evento onClick quando clicado', async () => {
-    const handleClick = vi.fn();
-    const screen = await renderWithTheme(<Button onClick={handleClick}>Clique</Button>);
+    const handleClick = vi.fn(() => { });
+    const screen = await render(<Button onClick={handleClick}>Clique</Button>);
 
-    userEvent.click(screen.getByText('Clique'));
+    await userEvent.click(screen.getByText('Clique').element());
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
   it('deve estar desabilitado quando a prop disabled é passada', async () => {
-    const screen = await renderWithTheme(<Button disabled>Desabilitado</Button>);
+    const screen = await render(<Button disabled>Desabilitado</Button>);
     const button = screen.getByRole('button');
     expect(button).toBeDisabled();
   });
 
   it('deve aplicar a cor correta para o variant contained', async () => {
-    const screen = await renderWithTheme(<Button variant="contained">Botão</Button>);
+    const screen = await render(<Button variant="contained">Botão</Button>);
     const button = screen.getByRole('button');
     // Verifica se a cor branca foi aplicada conforme a lógica do seu componente
-    expect(getComputedStyle(button.element()).color).toBe('white');
+    expect(getComputedStyle(button.element()).color).toBe('rgb(255, 255, 255)');
   });
 });

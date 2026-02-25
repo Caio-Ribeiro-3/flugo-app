@@ -5,6 +5,7 @@ import { styled } from '@mui/material/styles';
 import type { BaseUserInterfaceProps } from '../types'
 import { theme as appTheme } from '../theme'
 import { Typography } from '../typography';
+import type { SyntheticEvent } from 'react';
 
 const CustomSwitch = styled((props: MUISwitchProps) => (
     <MUISwitch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -55,16 +56,28 @@ const CustomSwitch = styled((props: MUISwitchProps) => (
 
 export interface SwitchProps {
     label?: string;
-    onChange?: (event: React.ChangeEvent<HTMLInputElement, Element>) => void
+    onChange?: (event: SyntheticEvent<Element, Event>) => void
 }
 
+/**
+ * Componente de Switch (Facade).
+ * 
+ * 
+ * @example
+ * <Switch 
+ *   label="Ativar notificações" 
+ *   onChange={(e) => console.log(e.target.checked)} 
+ * />
+ */
 export const Switch = ({
     label,
     _css,
+    onChange,
     ...rest
 }: BaseUserInterfaceProps<SwitchProps>) => (
     <FormControlLabel
         sx={{ margin: 0, ..._css }}
+        onChange={e => onChange?.(e)}
         control={(
             <CustomSwitch
                 {...rest}

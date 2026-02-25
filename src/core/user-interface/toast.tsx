@@ -9,6 +9,20 @@ type Notify = { (payload: Omit<Toast, 'id'>): void }
 
 const ToastContext = createContext<Notify | undefined>(undefined)
 
+/**
+ * Provedor de notificações globais (Toast/Snackbar).
+ * 
+ * Gerencia uma pilha de notificações temporárias que podem ser disparadas
+ * de qualquer lugar da aplicação através do hook `useToast`.
+ * 
+ * @example
+ * // 1. Envolva a aplicação:
+ * <ToastProvider>...</ToastProvider>
+ * 
+ * // 2. Use no componente:
+ * const notify = useToast();
+ * notify({ variant: 'success', message: 'Salvo com sucesso!' });
+ */
 export const ToastProvider = memo(({ children }: PropsWithChildren) => {
     const [state, setState] = useState<Toast[]>([])
     const notify: Notify = useCallback((payload) => {
