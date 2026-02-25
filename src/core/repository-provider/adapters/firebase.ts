@@ -33,11 +33,9 @@ export class FirebaseRepositoryProvider implements RepositoryProvider {
         };
         const app = initializeApp(firebaseConfig);
         this.firestore = getFirestore(app);
-        if (import.meta.env.DEV) {
-            initializeAppCheck(app, {
-                provider: new ReCaptchaEnterpriseProvider(import.meta.env.VITE_RECAPTCHA_SITE_KEY),
-            })
-        }
+        initializeAppCheck(app, {
+            provider: new ReCaptchaEnterpriseProvider(import.meta.env.VITE_RECAPTCHA_SITE_KEY),
+        })
     }
     async list<RecordType extends BaseRecord>({
         entity,
