@@ -24,7 +24,7 @@ export const LinearProgress = ({ percentage = 100 }: LinearProgressProps) => (
         <Box sx={{ width: '100%' }}>
             <MUILinearProgress sx={{ borderRadius: 50 }} variant="determinate" value={percentage} />
         </Box>
-        <Typography sx={{ fontSize: 12, lineHeight: 18 / 12, color: 'text.secondary' }} variant="body1">
+        <Typography variant="caption">
             {percentage}%
         </Typography>
     </Box>

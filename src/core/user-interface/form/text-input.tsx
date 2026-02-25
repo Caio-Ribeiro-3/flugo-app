@@ -1,4 +1,4 @@
-import { memo, type DetailedHTMLProps, type InputHTMLAttributes } from 'react';
+import React, { memo } from 'react';
 
 import TextField from '@mui/material/TextField';
 
@@ -6,8 +6,13 @@ import type { BaseUserInterfaceProps } from '../types';
 import { withFormField } from './with-form-field';
 
 
-export interface TextInputProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+export type TextInputProps = {
     label?: string;
+    value?: string;
+    onChange?: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement, Element>
+    placeholder?: string;
+    disabled?: boolean;
+    type?: React.HTMLInputTypeAttribute;
 }
 
 /**
@@ -23,8 +28,27 @@ export interface TextInputProps extends DetailedHTMLProps<InputHTMLAttributes<HT
  * />
  */
 
-export const TextInput = memo(withFormField((props: BaseUserInterfaceProps<TextInputProps>) => {
+export const TextInput = memo(withFormField(({
+    _css,
+    label,
+    value,
+    onChange,
+    placeholder,
+    disabled,
+    type
+}: BaseUserInterfaceProps<TextInputProps>) => {
     return (
-        <TextField fullWidth {...props} />
+        <TextField
+            label={label}
+            value={value}
+            type={type}
+            multiline={false}
+            // @ts-ignore : Não usamos textarea no momento
+            onChange={e => onChange?.(e)}
+            placeholder={placeholder}
+            disabled={disabled}
+            fullWidth
+            sx={_css}
+        />
     )
 }))

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button } from './button';
 
 const meta: Meta<typeof Button> = {
@@ -13,10 +13,6 @@ const meta: Meta<typeof Button> = {
             control: 'select',
             options: ['primary', 'neutral'],
         },
-        size: {
-            control: 'select',
-            options: ['large'],
-        },
         disabled: {
             control: 'boolean',
         },
@@ -25,7 +21,6 @@ const meta: Meta<typeof Button> = {
         children: 'Click me',
         variant: 'contained',
         color: 'primary',
-        size: 'large',
     },
 };
 

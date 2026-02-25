@@ -1,5 +1,5 @@
-export interface BaseRecord<RecordData extends Record<string, unknown> = Record<string, unknown>> extends RecordData {
-    id: string
+export type BaseRecord<RecordData extends Record<string, unknown> = Record<string, unknown>> = RecordData & {
+    id: string;
 }
 
 export interface Pagination {

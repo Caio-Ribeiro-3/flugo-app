@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { useMutation } from "@/core/query-provider/context-provider";
+import { useMutation } from "@/core/query-provider/use-mutation";
 
 import { Button } from '@/core/user-interface/button';
 import { Typography } from '@/core/user-interface/typography';
@@ -10,7 +10,7 @@ import { Breadcrumbs } from "@/core/user-interface/breadcrumbs";
 import { StepperVertical } from "@/core/user-interface/stepper-vertical";
 import { TextInput } from "@/core/user-interface/form/text-input";
 import { Switch } from "@/core/user-interface/form/switch";
-import { Select } from "@/core/user-interface/form/select";
+import { Select, Option } from "@/core/user-interface/form/select";
 import { useNavigate } from "@/core/routing-provider/use-navigate";
 import type { Colaborador } from "../model";
 
@@ -28,7 +28,7 @@ export const CreateColaboradoresPage = () => {
 
     const [step, setStep] = useState(0)
     const [form, setForm] = useState<Partial<Colaborador>>({ status: true })
-    const [errors, setErrors] = useState<Partial<Record<keyof Colaborador, string>>>({})
+    // const [errors, setErrors] = useState<Partial<Record<keyof Colaborador, string>>>({})
 
     return (
         <Base
@@ -120,7 +120,7 @@ export const CreateColaboradoresPage = () => {
                             error={!form.email ? 'Voce deve escolher um departamento' : undefined}
                         >
                             {DEPARTAMENTOS.map(dep => (
-                                <Select.Option value={dep}>{dep}</Select.Option>
+                                <Option value={dep}>{dep}</Option>
                             ))}
                         </Select>
                     )}
@@ -134,7 +134,7 @@ export const CreateColaboradoresPage = () => {
                                 if (step < 2) {
                                     setStep(prev => prev + 1)
                                 }
-                                if (!!step) {
+                                if (step) {
                                     mutate(form)
                                 }
                             }}>

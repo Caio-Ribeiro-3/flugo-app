@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { LinearProgress } from './linear-progress';
 
 const meta: Meta<typeof LinearProgress> = {
@@ -29,16 +29,5 @@ export const InProgress: Story = {
 export const Starting: Story = {
     args: {
         percentage: 10,
-    },
-};
-
-export const ContainerTest: Story = {
-    render: (args) => (
-        <div style={{ width: '300px', padding: '20px', border: '1px dashed #ccc' }}>
-            <LinearProgress {...args} />
-        </div>
-    ),
-    args: {
-        percentage: 85,
     },
 };

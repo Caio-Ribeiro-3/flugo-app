@@ -6,7 +6,7 @@ import { useTheme } from './context-provider';
 
 
 export interface TypographyProps {
-    variant?: 'body1' | 'nav-item-default' | 'desktop-h4' | 'table-head' | 'body2' | 'subtitle2';
+    variant?: 'body1' | 'nav-item-default' | 'desktop-h4' | 'table-head' | 'body2' | 'subtitle2' | 'caption';
     component?: string;
     color?: 'text.primary' | 'text.secondary'
     disabled?: boolean;
@@ -63,7 +63,13 @@ export const Typography = memo(({
         finalStyles.fontSize = 14
         finalStyles.lineHeight = 22 / finalStyles.fontSize
         finalStyles.fontWeight = 600
+    } else if (variant === 'caption') {
+        finalStyles.color = 'text.secondary'
+        finalStyles.fontSize = 12
+        finalStyles.lineHeight = 18 / finalStyles.fontSize
+        finalStyles.fontWeight = 400
     }
+
 
     finalStyles.color = color || finalStyles.color
 

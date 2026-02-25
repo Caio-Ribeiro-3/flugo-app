@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Skeleton } from './skeleton';
 import { Box } from '@mui/material';
 
@@ -34,8 +34,8 @@ export const ComplexPlaceholder: Story = {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <Skeleton variant="circular" width={40} height={40} />
             <Box sx={{ width: '100%' }}>
-                <Skeleton variant="rectangular" height={10} width="80%" _css={{ mb: 1 }} />
-                <Skeleton variant="rectangular" height={10} width="40%" />
+                <Skeleton variant="rectangular" height={10} width={200} _css={{ mb: 1 }} />
+                <Skeleton variant="rectangular" height={10} width={100} />
             </Box>
         </Box>
     ),

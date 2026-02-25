@@ -1,4 +1,4 @@
-import { memo, type ChangeEvent, type PropsWithChildren } from "react";
+import { memo, type PropsWithChildren } from "react";
 
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -15,9 +15,9 @@ interface SelectProps {
     /** Valor atual */
     value?: string;
     /** Callback para evento onchange */
-    onChange?(event: ChangeEvent<Omit<HTMLInputElement, "value"> & {
+    onChange?: (event: React.ChangeEvent<Omit<HTMLInputElement, 'value'> & {
         value: string;
-    }>): void
+    }>) => void;
     /** Desabilitar/habilitar campo */
     disabled?: boolean;
 }
@@ -48,7 +48,10 @@ const Select = memo(withFormField(({
             id="demo-simple-select"
             value={value}
             label={label}
-            onChange={e => onChange?.(e)}
+            // @ts-ignore : Nao precisamos dos overloads no momento
+            onChange={e => onChange?.(e as React.ChangeEvent<Omit<HTMLInputElement, 'value'> & {
+                value: string;
+            }>)}
             disabled={disabled}
             IconComponent={() => (
                 <ChevronRightIcon _css={{ mr: 1, transform: 'rotate(90deg)' }} size="small" />
@@ -67,6 +70,4 @@ const Option = ({ _css, ...rest }: PropsWithChildren<BaseUserInterfaceProps<Menu
     <MUIMenuItem {...rest} sx={_css} />
 )
 
-Select.Option = Option
-
-export { Select }
+export { Select, Option }

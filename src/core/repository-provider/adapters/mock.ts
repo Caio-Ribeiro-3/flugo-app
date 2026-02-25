@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import type { BaseRecord, Pagination, ListResult, RepositoryProvider, Sort } from "../types";
 
 import avatar2 from '@/assets/avatar2.png'
