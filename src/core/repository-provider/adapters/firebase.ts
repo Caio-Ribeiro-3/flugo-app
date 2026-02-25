@@ -11,7 +11,7 @@ import {
     type DocumentData,
     // type OrderByDirection,
 } from 'firebase/firestore/lite';
-import { initializeAppCheck, ReCaptchaEnterpriseProvider } from 'firebase/app-check';
+import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 
 import type { BaseRecord, Pagination, ListResult, RepositoryProvider, Sort } from "../types";
 import { error } from "@/core/utils/logger";
@@ -34,7 +34,8 @@ export class FirebaseRepositoryProvider implements RepositoryProvider {
         const app = initializeApp(firebaseConfig);
         this.firestore = getFirestore(app);
         initializeAppCheck(app, {
-            provider: new ReCaptchaEnterpriseProvider(import.meta.env.VITE_RECAPTCHA_SITE_KEY),
+            provider: new ReCaptchaV3Provider(import.meta.env.VITE_RECAPTCHA_SITE_KEY),
+            isTokenAutoRefreshEnabled: true
         })
     }
     async list<RecordType extends BaseRecord>({
