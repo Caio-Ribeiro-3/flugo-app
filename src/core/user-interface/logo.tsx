@@ -12,5 +12,5 @@ import logoURL from '@/assets/logo.svg'
  * <Logo />
  */
 export const Logo = () => {
-    return <img src={logoURL} />
+    return <img src={logoURL} alt="Logo da empresa" />
 }

@@ -25,7 +25,7 @@ describe('Toast System', () => {
     });
 
     it('deve remover o toast após o fechamento', async () => {
-        const { getByText, getByRole } = await render(
+        const { getByText, getByTestId } = await render(
             <ToastProvider>
                 <TestTrigger />
             </ToastProvider>
@@ -33,7 +33,7 @@ describe('Toast System', () => {
 
         await vi.waitFor(async () => {
             await userEvent.click(getByText('Disparar'));
-            const closeButton = getByRole('button', { name: /close/i });
+            const closeButton = getByTestId('CloseIcon');
             await userEvent.click(closeButton);
 
             await expect.element(getByText('Toast Ativo')).not.toBeInTheDocument();

@@ -22,10 +22,10 @@ describe('Switch Component', () => {
         expect(handleChange).toHaveBeenCalled();
     });
 
-    it('deve vir marcado por padrão devido ao defaultChecked', async () => {
+    it('nao deve vir marcado por padrão', async () => {
         const { getByRole } = await render(<Switch label="Padrão" />);
         const checkbox = getByRole('switch').element() as HTMLInputElement;
 
-        expect(checkbox.checked).toBe(true);
+        expect(checkbox.checked).toBe(false);
     });
 });
