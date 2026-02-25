@@ -32,39 +32,39 @@ A organização do diretório `src` reflete o compromisso com o desacoplamento e
 
 ```text
 src/
-├── assets/          # Assets estáticos (SVGs, imagens)
+├── assets/                             # Assets estáticos (SVGs, imagens)
 ├── core/
-│   ├── repository-provider/ # Camada de Persistência (DAL)
-│   │   ├── adapters/     # Adapters para mock e firestore
-│   │   ├── types/     # Interfaces que o resto do app depende de forma segura
-│   │   ├── context-provider/     # Mecanismo de injeção de dependência
-│   ├── query-provider/ # Gerenciador de estado relacionado a requisições
-│   │   ├── use-query/     # Hook de query
-│   │   ├── use-query-client/     # Hook de consulta da store global
-│   │   ├── use-mutation/     # Hook de mutacões com invalidação embutida
-│   │   ├── types/     # Interfaces que o resto do app depende de forma segura
-│   │   ├── context-provider/     # Mecanismo de injeção de dependência
-│   ├── entity/ # Camada de Controllers universais
-│   │   ├── list/use-list-controller     # Hook universal para gerenciar listagem de dados. Lida com cache, todo estado relacionado a requests, sort e paginação
-│   ├── user-interface/ # Design System (Facades do MUI)
-│   │   ├── button/     # Componente + Stories + Unit Tests
+│   ├── repository-provider/            # Camada de Persistência (DAL)
+│   │   ├── adapters/                   # Adapters para mock e firestore
+│   │   ├── types/                      # Interfaces que o resto do app depende de forma segura
+│   │   ├── context-provider/           # Mecanismo de injeção de dependência
+│   ├── query-provider/                 # Gerenciador de estado relacionado a requisições
+│   │   ├── use-query/                  # Hook de query
+│   │   ├── use-query-client/           # Hook de consulta da store global
+│   │   ├── use-mutation/               # Hook de mutacões com invalidação embutida
+│   │   ├── types/                      # Interfaces que o resto do app depende de forma segura
+│   │   ├── context-provider/           # Mecanismo de injeção de dependência
+│   ├── entity/                         # Camada de Controllers universais
+│   │   ├── list/use-list-controller    # Hook universal para gerenciar listagem de dados. Lida com cache, todo estado relacionado a requests, sort e paginação
+│   ├── user-interface/                 # Design System (Facades do MUI)
+│   │   ├── button/                     # Componente + Stories + Unit Tests
 │   │   ├── input/
 │   │   └── ...
-│   └── routing-provider/ # Facade de roteamento
-│   │   ├── adapters/     # Adapter para tanstack-router
-│   │   ├── context-provider/     # Mecanismo de injeção de dependência
-│   │   ├── types/     # Interfaces que o resto do app depende de forma segura
-│   │   ├── use-navigate/     # Hook para lidar com navegação entre páginas
-│   │   ├── use-query-params/     # Hook para lidar com query params da url
-│   │   ├── outlet/     # Facade para roteamento
-│   │   ├── mount-routes/     # Criador de rotas, dado um objeto estatico e um strategy/adapter
-│   └── utils/ # Funções de utilidade
+│   └── routing-provider/               # Facade de roteamento
+│   │   ├── adapters/                   # Adapter para tanstack-router
+│   │   ├── context-provider/           # Mecanismo de injeção de dependência
+│   │   ├── types/                      # Interfaces que o resto do app depende de forma segura
+│   │   ├── use-navigate/               # Hook para lidar com navegação entre páginas
+│   │   ├── use-query-params/           # Hook para lidar com query params da url
+│   │   ├── outlet/                     # Facade para roteamento
+│   │   ├── mount-routes/               # Criador de rotas, dado um objeto estatico e um strategy/adapter
+│   └── utils/                          # Funções de utilidade
 ├── features/
 │   └── colaboradores/
-│       ├── model/      # Definições de tipos e interfaces de domínio
-│       ├── controller/ # Hooks (useListController, etc) - Camada lógica
-│       └── view/       # Componentes de página (Listagem, Registro)
-└── test-utils/         # Helpers para Vitest Browser Mode
+│       ├── model/                      # Definições de tipos e interfaces de domínio
+│       ├── controller/                 # Hooks (useListController, etc) - Camada lógica
+│       └── view/                       # Componentes de página (Listagem, Registro)
+└── test-utils/                         # Helpers para Vitest Browser Mode
 ```
 ---
 
@@ -72,7 +72,6 @@ src/
 
 ### 1. Persistência e Proteção (Firebase)
 -   **App Check**: Implementado com **reCAPTCHA Enterprise**, garantindo que apenas requisições originadas do domínio autorizado acessem o Firestore.
--   **Segurança de Dados**: Regras de segurança granulares no Firestore protegem a integridade e privacidade dos dados.
 
 ### 2. Hosting e Delivery (Cloudflare Pages)
 Deploy realizado via **Cloudflare Pages** com foco em hardening:
@@ -94,7 +93,7 @@ A saúde do código é garantida por uma pipeline automatizada:
 ## 🛠️ Guia de Execução
 
 ### 1. Pré-requisitos
-*   **Node.js 22 (LTS)**: O projeto exige a versão 22 do Node.js.
+*   **Node.js 22 (LTS)**: O projeto exige a versão 22 do [Node.js](https://nodejs.org/pt-br/download)
 *   **nvm**: Caso possua o nvm instalado, execute `nvm use 22`.
 
 ### 2. Configuração de Ambiente
@@ -118,4 +117,3 @@ VITE_RECAPTCHA_SITE_KEY=""
 ### 4. Scripts de Qualidade
 - **Build de produção**: `npm run build` gera o bundle otimizado para o Cloudflare.
 - **Linting**: `npm run lint` valida as regras de estilo de código.
-- **
