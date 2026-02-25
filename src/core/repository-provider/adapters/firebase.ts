@@ -22,7 +22,7 @@ export class FirebaseRepositoryProvider implements RepositoryProvider {
     private firestore: ReturnType<typeof getFirestore>
     constructor() {
         // @ts-ignore
-        window.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+        window.FIREBASE_APPCHECK_DEBUG_TOKEN = import.meta.env.DEV;
         const firebaseConfig = {
             apiKey: import.meta.env.VITE_API_KEY,
             authDomain: import.meta.env.VITE_AUTH_DOMAIN,
@@ -33,9 +33,11 @@ export class FirebaseRepositoryProvider implements RepositoryProvider {
         };
         const app = initializeApp(firebaseConfig);
         this.firestore = getFirestore(app);
-        initializeAppCheck(app, {
-            provider: new ReCaptchaEnterpriseProvider(import.meta.env.VITE_RECAPTCHA_SITE_KEY),
-        })
+        if (import.meta.env.DEV) {
+            initializeAppCheck(app, {
+                provider: new ReCaptchaEnterpriseProvider(import.meta.env.VITE_RECAPTCHA_SITE_KEY),
+            })
+        }
     }
     async list<RecordType extends BaseRecord>({
         entity,
