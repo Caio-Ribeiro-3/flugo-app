@@ -65,7 +65,9 @@ const Header = ({ children }: PropsWithChildren) => {
             sx={{
                 bgcolor: theme.components.table.tableHeader.bgColor,
             }}>
-            {children}
+            <TableRow>
+                {children}
+            </TableRow>
         </TableHead>
     )
 
