@@ -45,18 +45,19 @@ export class FirebaseRepositoryProvider implements RepositoryProvider {
         sort
     }: { entity: string; sort: Sort; pagination: Pagination; }): Promise<ListResult<RecordType>> {
         try {
-            const commands = []
-            for (const key in sort) {
-                commands.push(orderBy(key, sort[key] as unknown as OrderByDirection))
-            }
-            if (pagination.page > 1) {
-                commands.push(startAfter((pagination.page - 1) * pagination.perPage))
-            }
+            // Sort e paginação server side não são necessárias no momento 
+            // const commands = []
+            // for (const key in sort) {
+            //     commands.push(orderBy(key, sort[key] as unknown as OrderByDirection))
+            // }
+            // if (pagination?.page && pagination?.perPage) {
+            //     commands.push(startAfter((pagination.page - 1) * pagination.perPage))
+            //     commands.push(limit(pagination.perPage))
+            // }
             const entityRef = collection(this.firestore, entity)
             const q = query(
                 entityRef,
-                ...commands,
-                limit(pagination.perPage)
+                // ...commands,
             );
             const querySnapshot = await getDocs(q);
             const data: RecordType[] = []

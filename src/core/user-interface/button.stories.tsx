@@ -62,13 +62,3 @@ export const Disabled: Story = {
         children: 'Disabled Button',
     },
 };
-
-export const FullWidth: Story = {
-    render: (args) => (
-        <div style={{ width: '100%' }}>
-            <Button {...args} style={{ width: '100%' }}>
-                Full Width Button
-            </Button>
-        </div>
-    ),
-};

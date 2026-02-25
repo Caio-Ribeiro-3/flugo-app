@@ -11,10 +11,13 @@ import { Skeleton } from "@/core/user-interface/skeleton";
 import { useNavigate } from "@/core/routing-provider/use-navigate";
 
 import type { Colaborador } from "../model";
+import { useMediaQuery } from "@/core/user-interface/use-media-query";
+import { windowBreakpoints } from "@/core/user-interface/constants";
 
 
 
 export const ListColaboradoresPage = () => {
+    const matches = useMediaQuery(windowWidth => windowWidth > windowBreakpoints.sm);
     const { data, isLoading, error } = useListController<
         Colaborador,
         Colaborador & { page: number; limit: number }
@@ -28,7 +31,9 @@ export const ListColaboradoresPage = () => {
                 _css={{
                     display: 'flex',
                     justifyContent: 'space-between',
-                    alignItems: 'center',
+                    alignItems: matches ? 'center' : 'stretch',
+                    flexDirection: matches ? 'row' : 'column',
+                    gap: matches ? undefined : 2,
                     pb: theme => theme.spacing(4),
                     pt: theme => theme.spacing(7)
                 }}>

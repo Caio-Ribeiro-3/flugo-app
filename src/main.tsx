@@ -12,7 +12,7 @@ import { FirebaseRepositoryProvider } from './core/repository-provider/adapters/
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AppShell
-      repositoryProvider={import.meta.env.PROD ? new FirebaseRepositoryProvider() : new MockRepositoryProvider()}
+      repositoryProvider={true ? new FirebaseRepositoryProvider() : new MockRepositoryProvider()}
       routes={[
         {
           pathless: true,

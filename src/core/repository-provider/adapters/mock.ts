@@ -7,6 +7,7 @@ import avatar3 from '@/assets/avatar3.png'
 import avatar4 from '@/assets/avatar4.png'
 import avatar5 from '@/assets/avatar5.png'
 import { deepCopy } from "@/core/utils/deep-copy";
+import { deepSort } from "@/core/utils/deep-sort";
 
 export class MockRepositoryProvider implements RepositoryProvider {
     private _storage: Record<string, unknown[]> = {
@@ -50,20 +51,16 @@ export class MockRepositoryProvider implements RepositoryProvider {
         sort
     }: { entity: string; sort: Sort; pagination: Pagination; }): Promise<ListResult<RecordType>> {
         if (!this._storage[entity]) throw new Error('Entidade nao existe em MockRepositoryProvider')
-        const entityStorage = deepCopy(this._storage[entity]) as Record<string, any>[]
+        const entityStorage = deepSort(deepCopy(this._storage[entity]) as Record<string, any>[], sort)
 
-        for (const key in sort) {
-            entityStorage.sort((a, b) => {
-                if (sort[key] === 'desc') return a[key] < b[key] ? 1 : a[key] > b[key] ? -1 : 0
-                return a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0
-            })
+        if (pagination.perPage && pagination.page) {
+            entityStorage.splice(pagination.page * pagination.perPage, pagination.perPage)
         }
-        entityStorage.splice(pagination.page * pagination.perPage, pagination.perPage)
 
         return new Promise(resolve => setTimeout(() => resolve({
             data: entityStorage as RecordType[],
             perPage: pagination.perPage,
-            page: pagination.perPage * pagination.page,
+            page: pagination.perPage && pagination.page ? pagination.perPage * pagination.page : 1,
             total: this._storage[entity].length
         }), 1000))
     }

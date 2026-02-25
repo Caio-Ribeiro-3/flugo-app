@@ -13,12 +13,16 @@ import { Switch } from "@/core/user-interface/form/switch";
 import { Select, Option } from "@/core/user-interface/form/select";
 import { useNavigate } from "@/core/routing-provider/use-navigate";
 import type { Colaborador } from "../model";
+import { useMediaQuery } from "@/core/user-interface/use-media-query";
+import { windowBreakpoints } from "@/core/user-interface/constants";
 
 
 
 const DEPARTAMENTOS = ['Design', 'TI', 'Marketing', 'Produto']
 
 export const CreateColaboradoresPage = () => {
+    const matches = useMediaQuery(windowWidth => windowWidth > windowBreakpoints.sm);
+
     const navigate = useNavigate()
 
     const { mutate, isLoading } = useMutation({
@@ -48,31 +52,33 @@ export const CreateColaboradoresPage = () => {
             </Breadcrumbs>
             <LinearProgress percentage={step * 50} />
             <Base _css={{ display: 'flex', justifyContent: 'space-between', mt: theme => theme.spacing(5) }}>
-                <Base _css={{ mr: 'auto' }}>
-                    <StepperVertical>
-                        <StepperVertical.StepperVerticalItem isCompleted={!!step} isCurrent={!step}>
-                            <StepperVertical.StepperVerticalSeparator>
-                                <StepperVertical.StepperVerticalDot>
-                                    1
-                                </StepperVertical.StepperVerticalDot>
-                                <StepperVertical.StepperVerticalConnector />
-                            </StepperVertical.StepperVerticalSeparator>
-                            <StepperVertical.StepperVerticalContent>
-                                Infos Básicas
-                            </StepperVertical.StepperVerticalContent>
-                        </StepperVertical.StepperVerticalItem>
-                        <StepperVertical.StepperVerticalItem isCurrent={!!step} isCompleted={step > 1}>
-                            <StepperVertical.StepperVerticalSeparator>
-                                <StepperVertical.StepperVerticalDot>
-                                    2
-                                </StepperVertical.StepperVerticalDot>
-                            </StepperVertical.StepperVerticalSeparator>
-                            <StepperVertical.StepperVerticalContent>
-                                Infos Profissionais
-                            </StepperVertical.StepperVerticalContent>
-                        </StepperVertical.StepperVerticalItem>
-                    </StepperVertical>
-                </Base>
+                {matches && (
+                    <Base _css={{ mr: 'auto' }}>
+                        <StepperVertical>
+                            <StepperVertical.StepperVerticalItem isCompleted={!!step} isCurrent={!step}>
+                                <StepperVertical.StepperVerticalSeparator>
+                                    <StepperVertical.StepperVerticalDot>
+                                        1
+                                    </StepperVertical.StepperVerticalDot>
+                                    <StepperVertical.StepperVerticalConnector />
+                                </StepperVertical.StepperVerticalSeparator>
+                                <StepperVertical.StepperVerticalContent>
+                                    Infos Básicas
+                                </StepperVertical.StepperVerticalContent>
+                            </StepperVertical.StepperVerticalItem>
+                            <StepperVertical.StepperVerticalItem isCurrent={!!step} isCompleted={step > 1}>
+                                <StepperVertical.StepperVerticalSeparator>
+                                    <StepperVertical.StepperVerticalDot>
+                                        2
+                                    </StepperVertical.StepperVerticalDot>
+                                </StepperVertical.StepperVerticalSeparator>
+                                <StepperVertical.StepperVerticalContent>
+                                    Infos Profissionais
+                                </StepperVertical.StepperVerticalContent>
+                            </StepperVertical.StepperVerticalItem>
+                        </StepperVertical>
+                    </Base>
+                )}
                 <Base
                     _css={{
                         flexDirection: 'column',
@@ -81,7 +87,7 @@ export const CreateColaboradoresPage = () => {
                         flexGrow: 1,
                         flexShrink: 0,
                         minHeight: 440,
-                        ml: 5
+                        ml: matches ? 5 : 0
                     }}>
                     <Typography
                         _css={{
@@ -110,6 +116,7 @@ export const CreateColaboradoresPage = () => {
                                 _css={{ mt: 1 }}
                                 label='Ativar ao criar'
                                 onChange={e => setForm(prev => ({ ...prev, status: e.target.checked }))}
+                                defaultChecked
                             />
                         </>
                     ) : (

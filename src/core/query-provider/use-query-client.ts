@@ -7,6 +7,12 @@ import type { QueryClient } from './types'
 
 export function useQueryclient(): QueryClient {
     const queryClient = useQueryclientTS()
-
-    return queryClient as QueryClient
+    return {
+        getQuery(queryKey) {
+            return queryClient.getQueryData(queryKey)
+        },
+        async invalidateQueries(queryKey: Parameters<typeof queryClient.invalidateQueries>[0]) {
+            await queryClient.invalidateQueries(queryKey)
+        },
+    } as QueryClient
 }

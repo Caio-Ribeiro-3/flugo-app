@@ -13,6 +13,7 @@ import type { Colaborador } from '@/features/colaboradores/model';
 import { Typography } from './typography';
 import { useTheme } from './context-provider';
 import type { Sort } from '../repository-provider/types';
+import { Base } from './base';
 
 
 
@@ -45,16 +46,21 @@ import type { Sort } from '../repository-provider/types';
 const DataGrid = ({ children }: PropsWithChildren) => {
     const theme = useTheme()
     return (
-        <TableContainer
-            sx={{
-                borderRadius: theme.spacing(2),
-                boxShadow: theme.boxShadow.light
-            }}
-        >
-            <Table>
-                {children}
-            </Table>
-        </TableContainer>
+        <Base
+            _css={{
+                maxWidth: '100vw',
+            }}>
+            <TableContainer
+                sx={{
+                    borderRadius: theme.spacing(2),
+                    boxShadow: theme.boxShadow.light,
+                }}
+            >
+                <Table>
+                    {children}
+                </Table>
+            </TableContainer>
+        </Base>
     )
 }
 
@@ -96,7 +102,7 @@ const HeaderCell = ({
             }}>
             <TableSortLabel
                 active={!!queryParams[id]}
-                direction={(queryParams[id]) as Sort[keyof Sort]}
+                direction={(queryParams[id]) as Sort[number]['direction']}
                 onClick={() => {
                     setQueryParams(prev => ({ ...prev, [id]: !prev[id] ? 'asc' : prev[id] === 'asc' ? 'desc' : undefined }))
                 }}

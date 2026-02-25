@@ -3,11 +3,11 @@ export type BaseRecord<RecordData extends Record<string, unknown> = Record<strin
 }
 
 export interface Pagination {
-    page: number;
-    perPage: number;
+    page?: number;
+    perPage?: number;
 }
 
-export type Sort = Record<string, 'asc' | 'desc'>
+export type Sort = { field: string, direction: 'asc' | 'desc' }[]
 
 export interface ListResult<RecordType extends BaseRecord> extends Pagination {
     data: RecordType[];

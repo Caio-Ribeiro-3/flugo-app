@@ -51,7 +51,7 @@ export const useListController = <
     }, [setQueryParams, applyPrefix, entity])
 
 
-    const sort = queryParamsForEntity as Sort
+    const sort = Object.entries(queryParamsForEntity).map(([field, direction]) => ({ field, direction })) as Sort
     const pagination = DEFAULT_PAGINATION
 
     const query = useQuery<Model>({
@@ -59,7 +59,7 @@ export const useListController = <
         queryKey: ['list', sort, pagination],
         staleTime,
         sort,
-        pagination
+        pagination,
     })
 
     return {

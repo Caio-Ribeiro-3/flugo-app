@@ -6,6 +6,8 @@ import {
 
 import { useRepository } from "../repository-provider/context-provider"
 import type { BaseRecord, ListResult, Pagination, Sort } from "../repository-provider/types"
+import { deepSort } from '../utils/deep-sort'
+import { useQueryclient } from './use-query-client'
 
 export interface UseQueryProps {
     entity: string
@@ -13,6 +15,7 @@ export interface UseQueryProps {
     staleTime?: number
     sort: Sort
     pagination: Pagination
+    sortAndPaginationStrategy?: 'client' | 'server'
 }
 
 export interface UseQueryReturn<RecordData extends BaseRecord> {
@@ -29,11 +32,20 @@ export function useQuery<RecordData extends BaseRecord>({
     queryKey,
     staleTime = DEFAULT_STALE_TIME,
     sort,
-    pagination
+    pagination,
+    sortAndPaginationStrategy = 'client'
 }: UseQueryProps): UseQueryReturn<RecordData> {
+    const queryClient = useQueryclient()
     const repository = useRepository()
+
+    const finalQueryKey: UseQueryProps['queryKey'] = [entity]
+    if (sortAndPaginationStrategy === 'server') {
+        finalQueryKey.push(queryKey)
+    }
+    const cachedData = queryClient.getQuery<UseQueryReturn<RecordData>>(finalQueryKey)
+
     const { data, error, isLoading } = useQueryTS({
-        queryKey: [entity, queryKey],
+        queryKey: finalQueryKey,
         queryFn: () => repository.list({
             entity,
             sort,
@@ -44,7 +56,7 @@ export function useQuery<RecordData extends BaseRecord>({
 
     return useMemo(() => ({
         data: {
-            data: ((data?.data || []) as unknown as RecordData[]),
+            data: deepSort((cachedData?.data || data?.data || []) as unknown as RecordData[], sortAndPaginationStrategy === 'client' ? sort : []),
             page: data?.page || 0,
             perPage: data?.perPage || 0,
             total: data?.total || 0
@@ -52,8 +64,11 @@ export function useQuery<RecordData extends BaseRecord>({
         error,
         isLoading,
     }), [
-        data,
+        data?.data,
+        cachedData,
         error,
         isLoading,
+        sort,
+        pagination
     ])
 }
