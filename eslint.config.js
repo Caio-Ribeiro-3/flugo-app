@@ -12,7 +12,8 @@ export default defineConfig([globalIgnores(['!.storybook'], ['dist']), {
   files: ['**/*.{ts,tsx}'],
   rules: {
     "@typescript-eslint/no-explicit-any": "off",
-    "react-refresh/only-export-components": "off"
+    "react-refresh/only-export-components": "off",
+    "@typescript-eslint/ban-ts-comment": "off"
   },
   extends: [
     js.configs.recommended,

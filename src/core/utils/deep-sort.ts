@@ -23,8 +23,8 @@ export function deepSort<T>(arr: T[], sort: Sort): T[] {
     return [...arr].sort((a, b) => {
         for (let i = 0; i < sort.length; i++) {
             const { field, direction } = sort[i]
-            let valA = a[field as keyof typeof a];
-            let valB = b[field as keyof typeof b];
+            const valA = a[field as keyof typeof a];
+            const valB = b[field as keyof typeof b];
 
             if (valA !== valB) {
                 const modifier = direction === 'desc' ? -1 : 1;

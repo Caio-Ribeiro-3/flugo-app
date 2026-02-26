@@ -58,7 +58,7 @@ export function useQuery<RecordData extends BaseRecord>({
     return useMemo(() => {
         const finalData = (cachedData || data)
         let result = finalData?.data as unknown as RecordData[] || []
-        let total = finalData?.total || result?.length || 0
+        const total = finalData?.total || result?.length || 0
 
         if (sortAndPaginationStrategy === 'client') {
             result = deepSort(result, sort)
