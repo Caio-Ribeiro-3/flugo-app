@@ -76,7 +76,7 @@ src/
 ### 2. Hosting e Delivery (Cloudflare Pages)
 Deploy realizado via **Cloudflare Pages** com foco em hardening:
 -   **CSP (Content Security Policy)**: Implementada com suporte a **Nonces** para execução segura de scripts.
--   **Segurança de Headers**: Injeção de headers como `X-Content-Type-Options: nosniff` para mitigação de ataques.
+-   **Segurança de Headers**: Injeção de headers como `X-Content-Type-Options: nosniff` e `x-frame-options: DENY` para mitigação de ataques.
 
 ---
 
@@ -107,6 +107,7 @@ VITE_MESSAGING_SENDER_ID=""
 VITE_APP_ID=""
 VITE_RECAPTCHA_SITE_KEY=""
 ```
+ou use o mock!
 
 ### 3. Instalação e Execução
 - **Instalar dependências**: Execute `npm install` para baixar as bibliotecas necessárias.
