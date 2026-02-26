@@ -5,14 +5,20 @@ import { userEvent } from 'vitest/browser';
 
 // Mock do controller
 const mockSetQueryParams = vi.fn();
-vi.mock('../entity/list/use-list-controller', () => ({
+vi.mock('../entity/list/list-controller', () => ({
     useListController: () => ({
         data: { data: [{ id: 1, nome: 'João' }], total: 1 },
         isLoading: false,
         error: null,
-        queryParams: { page: 0 },
-        setQueryParams: mockSetQueryParams
-    })
+        pagination: { page: 1, perPage: 10 },
+        setPagination: mockSetQueryParams,
+        sort: [],
+        setSort: mockSetQueryParams,
+    }),
+    DEFAULT_PAGINATION: {
+        page: 1,
+        perPage: 10
+    }
 }));
 
 describe('DataGrid Component', () => {
