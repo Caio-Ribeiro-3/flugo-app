@@ -82,7 +82,7 @@ Deploy realizado via **Cloudflare Pages** com foco em hardening:
 
 ## Qualidade e CI/CD
 
-A saúde do código é garantida por uma pipeline automatizada:
+A saúde do código é garantida por uma pipeline automatizada usando Github Actions:
 -   **TypeScript**: Verificação estática rigorosa.
 -   **Vitest**: Testes unitários e de integração utilizando **Browser Mode** e `userEvent` para simulação real de comportamento.
 -   **Storybook**: Documentação visual isolada de todos os componentes.
