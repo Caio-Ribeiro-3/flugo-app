@@ -5,7 +5,7 @@ import {
     collection,
     addDoc,
     query,
-    // orderBy,
+    orderBy,
     // limit,
     // startAfter,
     type DocumentData,
@@ -57,7 +57,7 @@ export class FirebaseRepositoryProvider implements RepositoryProvider {
             const entityRef = collection(this.firestore, entity)
             const q = query(
                 entityRef,
-                // orderBy("createdAt", "desc")
+                orderBy("createdAt", "desc")
                 // ...commands,
             );
             const querySnapshot = await getDocs(q);
