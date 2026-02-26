@@ -21,7 +21,7 @@ import FormHelperText from '@mui/material/FormHelperText';
  *   error="Endereço de e-mail inválido" 
  * />
  */
-export function withFormField<T extends {}>(Component: React.ComponentType<T>) {
+export function withFormField<T extends object>(Component: React.ComponentType<T>) {
     return function ({ error, ...rest }: Partial<T> & { id?: string; name?: string; error?: string; onBlur?: () => void }) {
         return (
             <div>
