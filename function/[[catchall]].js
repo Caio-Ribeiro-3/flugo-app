@@ -5,6 +5,6 @@ import crypto from 'node:crypto';
  */
 export const onRequest = async (context) => {
     const response = await context.next();
-    // response.headers.set("Content-Security-Policy", `default-src 'self'; style-src 'self' 'nonce-${crypto.randomBytes(16).toString('base64')}'; script-src 'self' 'nonce-${crypto.randomBytes(16).toString('base64')}';`);
+    response.headers.set("Content-Security-Policy", `default-src 'self'; style-src 'self' 'nonce-${crypto.randomBytes(16).toString('base64')}'; script-src 'self' 'nonce-${crypto.randomBytes(16).toString('base64')}';`);
     return response;
 };
