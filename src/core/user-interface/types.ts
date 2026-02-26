@@ -48,13 +48,7 @@ type Spacing<Prefix extends string, Suffix extends Directions | never = Directio
 
 export type BaseUserInterfaceProps<ComponentProps = unknown> = ComponentProps & {
     _css?: Omit<React.CSSProperties, 'gap'> & {
-        display?: 'flex';
-        justifyContent?: 'flex-start' | 'center' | 'flex-end' | 'space-between';
         gap?: (string | number | ((payload: Pick<Theme, 'spacing'>) => ReturnType<Theme['spacing']>));
-        flexShrink?: number;
-        flexGrow?: number;
-        flexBasis?: number;
-        flexDirection?: 'column' | 'row';
     } & Spacing<'m'>
     & Spacing<'p'>
 }

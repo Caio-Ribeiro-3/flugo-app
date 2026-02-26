@@ -8,12 +8,12 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
 import { TableFooter, TablePagination, TableSortLabel } from '@mui/material';
-import { useListController } from '../entity/list/use-list-controller';
 import type { Colaborador } from '@/features/colaboradores/model';
 import { Typography } from './typography';
 import { useTheme } from './context-provider';
-import type { Sort } from '../repository-provider/types';
 import { Base } from './base';
+import { deepCopy } from '../utils/deep-copy';
+import { DEFAULT_PAGINATION, useListController } from '../entity/list/list-controller';
 
 
 
@@ -89,10 +89,8 @@ const HeaderCell = ({
     align = 'left',
     children
 }: PropsWithChildren<HeaderCellProps>) => {
-    const { queryParams, setQueryParams } = useListController<
-        Colaborador,
-        Colaborador & { page: number; limit: number }
-    >({ entity: 'colaboradores' })
+    const { sort, setSort } = useListController<Colaborador>()
+    const sortIndex = sort.findIndex(el => el.field === id)
     return (
         <TableCell
             align={align}
@@ -101,10 +99,25 @@ const HeaderCell = ({
                 maxWidth: 270,
             }}>
             <TableSortLabel
-                active={!!queryParams[id]}
-                direction={(queryParams[id]) as Sort[number]['direction']}
+                active={!!sort[sortIndex]}
+                direction={sort[sortIndex]?.direction}
                 onClick={() => {
-                    setQueryParams(prev => ({ ...prev, [id]: !prev[id] ? 'asc' : prev[id] === 'asc' ? 'desc' : undefined }))
+                    setSort(prev => {
+                        const newSort = deepCopy(prev)
+                        if (sortIndex === -1) {
+                            newSort.push({
+                                field: id,
+                                direction: 'asc'
+                            })
+                        } else {
+                            if (newSort[sortIndex].direction === 'asc') {
+                                newSort[sortIndex] = { ...newSort[sortIndex], direction: 'desc' }
+                            } else {
+                                newSort.splice(sortIndex, 1)
+                            }
+                        }
+                        return newSort
+                    })
                 }}
             >
                 <Typography variant='table-head'>
@@ -150,24 +163,24 @@ const Cell = ({ align = 'left', children }: PropsWithChildren<CellProps>) => {
 }
 
 const Footer = () => {
-    const { data, isLoading, error, queryParams, setQueryParams } = useListController<
-        Colaborador,
-        Colaborador & { page: number; limit: number }
-    >({ entity: 'colaboradores' })
+    const { data, isLoading, error, pagination, setPagination } = useListController<Colaborador>()
     return (
         <TableFooter>
             <TableRow>
                 <TablePagination
                     disabled={isLoading || !!error}
-                    count={data.data.length}
+                    count={data.total!}
                     onPageChange={(_, page) => {
-                        setQueryParams(prev => {
-                            return { ...prev, page: page }
+                        setPagination(prev => {
+                            return { ...prev, page: page + 1 }
                         })
                     }}
-                    page={queryParams.page || 0}
-                    rowsPerPage={10}
-                    rowsPerPageOptions={[10]}
+                    page={(pagination.page || 1) - 1}
+                    rowsPerPage={DEFAULT_PAGINATION.perPage!}
+                    rowsPerPageOptions={[DEFAULT_PAGINATION.perPage!]}
+                    labelDisplayedRows={function ({ from, to, count }) {
+                        return `${from}–${to} de ${count !== -1 ? count : `mais que ${to}`}`;
+                    }}
                 />
             </TableRow>
         </TableFooter>

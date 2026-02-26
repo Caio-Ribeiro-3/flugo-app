@@ -42,7 +42,7 @@ export function useQuery<RecordData extends BaseRecord>({
     if (sortAndPaginationStrategy === 'server') {
         finalQueryKey.push(queryKey)
     }
-    const cachedData = queryClient.getQuery<UseQueryReturn<RecordData>>(finalQueryKey)
+    const cachedData = queryClient.getQuery<ListResult<RecordData>>(finalQueryKey)
 
     const { data, error, isLoading } = useQueryTS({
         queryKey: finalQueryKey,
@@ -54,21 +54,43 @@ export function useQuery<RecordData extends BaseRecord>({
         staleTime,
     })
 
-    return useMemo(() => ({
-        data: {
-            data: deepSort((cachedData?.data || data?.data || []) as unknown as RecordData[], sortAndPaginationStrategy === 'client' ? sort : []),
-            page: data?.page || 0,
-            perPage: data?.perPage || 0,
-            total: data?.total || 0
-        },
-        error,
-        isLoading,
-    }), [
-        data?.data,
+
+    return useMemo(() => {
+        const finalData = (cachedData || data)
+        let result = finalData?.data as unknown as RecordData[] || []
+        let total = finalData?.total || result?.length || 0
+
+        if (sortAndPaginationStrategy === 'client') {
+            result = deepSort(result, sort)
+            if (pagination.page && pagination.perPage) {
+                const temp: typeof result = []
+                for (let i = 0; i < pagination.perPage; i++) {
+                    const item = result[pagination.perPage * (pagination.page - 1) + i]
+                    if (item) {
+                        temp.push(item)
+                    }
+                }
+                result = temp
+            }
+        }
+
+        return {
+            data: {
+                data: result,
+                page: pagination?.page || 0,
+                perPage: pagination?.perPage || 0,
+                total
+            },
+            error,
+            isLoading,
+        }
+    }, [
+        data,
         cachedData,
         error,
         isLoading,
         sort,
-        pagination
+        pagination,
+        sortAndPaginationStrategy
     ])
 }

@@ -1,4 +1,3 @@
-import { useListController } from "@/core/entity/list/use-list-controller";
 
 import { Button } from '@/core/user-interface/button';
 import { Typography } from '@/core/user-interface/typography';
@@ -13,16 +12,13 @@ import { useNavigate } from "@/core/routing-provider/use-navigate";
 import type { Colaborador } from "../model";
 import { useMediaQuery } from "@/core/user-interface/use-media-query";
 import { windowBreakpoints } from "@/core/user-interface/constants";
+import { useListController } from '@/core/entity/list/list-controller';
 
 
 
 export const ListColaboradoresPage = () => {
     const matches = useMediaQuery(windowWidth => windowWidth > windowBreakpoints.sm);
-    const { data, isLoading, error } = useListController<
-        Colaborador,
-        Colaborador & { page: number; limit: number }
-    >({ entity: 'colaboradores' })
-
+    const { data, isLoading, error } = useListController<Colaborador>()
 
     const navigate = useNavigate()
     return (

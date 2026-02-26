@@ -22,10 +22,10 @@ import FormHelperText from '@mui/material/FormHelperText';
  * />
  */
 export function withFormField<T extends {}>(Component: React.ComponentType<T>) {
-    return function ({ error, ...rest }: Partial<T> & { error?: string; }) {
+    return function ({ error, ...rest }: Partial<T> & { id?: string; name?: string; error?: string; onBlur?: () => void }) {
         return (
             <div>
-                <Component {...rest as T} />
+                <Component  {...rest as T} />
                 <FormHelperText error={!!error} >
                     {error}
                 </FormHelperText>

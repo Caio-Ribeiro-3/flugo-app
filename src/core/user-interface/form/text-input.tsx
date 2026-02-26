@@ -35,7 +35,8 @@ export const TextInput = memo(withFormField(({
     onChange,
     placeholder,
     disabled,
-    type
+    type,
+    ...rest
 }: BaseUserInterfaceProps<TextInputProps>) => {
     return (
         <TextField
@@ -49,6 +50,7 @@ export const TextInput = memo(withFormField(({
             disabled={disabled}
             fullWidth
             sx={_css}
+            {...rest}
         />
     )
 }))

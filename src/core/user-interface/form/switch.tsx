@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import MUISwitch, { type SwitchProps as MUISwitchProps } from '@mui/material/Switch'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import { styled } from '@mui/material/styles';
@@ -5,6 +7,7 @@ import { styled } from '@mui/material/styles';
 import type { BaseUserInterfaceProps } from '../types'
 import { theme as appTheme } from '../theme'
 import { Typography } from '../typography';
+import { withFormField } from './with-form-field';
 
 const CustomSwitch = styled((props: MUISwitchProps) => (
     <MUISwitch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -72,7 +75,7 @@ export interface SwitchProps {
  *   onChange={(e) => console.log(e.target.checked)} 
  * />
  */
-export const Switch = ({
+export const Switch = memo(withFormField(({
     label,
     _css,
     onChange,
@@ -88,4 +91,4 @@ export const Switch = ({
         )}
         label={<Typography variant='body2'>{label}</Typography>}
     />
-)
+)))

@@ -5,10 +5,11 @@ import {
     collection,
     addDoc,
     query,
-    // orderBy,
+    orderBy,
     // limit,
     // startAfter,
     type DocumentData,
+    serverTimestamp,
     // type OrderByDirection,
 } from 'firebase/firestore/lite';
 import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
@@ -56,6 +57,7 @@ export class FirebaseRepositoryProvider implements RepositoryProvider {
             const entityRef = collection(this.firestore, entity)
             const q = query(
                 entityRef,
+                // orderBy("createdAt", "desc")
                 // ...commands,
             );
             const querySnapshot = await getDocs(q);
@@ -81,7 +83,10 @@ export class FirebaseRepositoryProvider implements RepositoryProvider {
         payload
     }: { entity: string; payload: Partial<RecordType>; }): Promise<void> {
         try {
-            await addDoc(collection(this.firestore, entity), payload as DocumentData);
+            await addDoc(collection(this.firestore, entity), {
+                ...payload,
+                createdAt: serverTimestamp()
+            } as DocumentData);
         } catch (e) {
             error(e)
             throw new Error('Não foi possível executar o comando de criação do FirebaseRepositoryProvider')

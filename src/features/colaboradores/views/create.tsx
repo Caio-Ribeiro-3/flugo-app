@@ -12,13 +12,12 @@ import { TextInput } from "@/core/user-interface/form/text-input";
 import { Switch } from "@/core/user-interface/form/switch";
 import { Select, Option } from "@/core/user-interface/form/select";
 import { useNavigate } from "@/core/routing-provider/use-navigate";
-import type { Colaborador } from "../model";
 import { useMediaQuery } from "@/core/user-interface/use-media-query";
 import { windowBreakpoints } from "@/core/user-interface/constants";
+import { useForm } from "@/core/user-interface/form/use-form";
+import { colaboratorValidator, DEPARTAMENTOS } from "../model";
 
 
-
-const DEPARTAMENTOS = ['Design', 'TI', 'Marketing', 'Produto']
 
 export const CreateColaboradoresPage = () => {
     const matches = useMediaQuery(windowWidth => windowWidth > windowBreakpoints.sm);
@@ -31,9 +30,15 @@ export const CreateColaboradoresPage = () => {
     })
 
     const [step, setStep] = useState(0)
-    const [form, setForm] = useState<Partial<Colaborador>>({ status: true })
-    // const [errors, setErrors] = useState<Partial<Record<keyof Colaborador, string>>>({})
-
+    const { Field, Subscribe, handleSubmit, getAllErrors } = useForm({
+        email: '',
+        name: '',
+        role: '',
+        status: true,
+    },
+        payload => mutate(payload)
+    )
+    console.log(getAllErrors())
     return (
         <Base
             _css={{
@@ -99,57 +104,138 @@ export const CreateColaboradoresPage = () => {
                     >
                         {!step ? 'Informações Básicas' : 'Informações Profissionais'}
                     </Typography>
-                    {!step ? (
-                        <>
-                            <TextInput
-                                label='Título'
-                                onChange={e => setForm(prev => ({ ...prev, name: e.target.value }))}
-                                error={!form.name ? 'Voce deve digitar um título' : form.name.length < 4 ? 'Um título deve ter ao menos 5 caracteres' : undefined}
-                            />
-                            <TextInput
-                                label='E-mail'
-                                type='email'
-                                onChange={e => setForm(prev => ({ ...prev, email: e.target.value }))}
-                                error={!form.email ? 'Voce deve digitar um email' : form.email.length < 4 ? 'Um email deve ter ao menos 5 caracteres' : undefined}
-                            />
-                            <Switch
-                                _css={{ mt: 1 }}
-                                label='Ativar ao criar'
-                                onChange={e => setForm(prev => ({ ...prev, status: e.target.checked }))}
-                                defaultChecked
-                            />
-                        </>
-                    ) : (
-                        <Select
-                            disabled={isLoading || step > 1}
-                            label='Selecione um departamento'
-                            onChange={e => setForm(prev => ({ ...prev, role: e.target.value! }))}
-                            error={!form.email ? 'Voce deve escolher um departamento' : undefined}
-                        >
-                            {DEPARTAMENTOS.map(dep => (
-                                <Option value={dep}>{dep}</Option>
-                            ))}
-                        </Select>
-                    )}
-                    <Base _css={{ mt: 'auto', display: 'flex', justifyContent: 'space-between' }}>
-                        <Button color="neutral" onClick={() => setStep(0)} variant="text" disabled={!step || isLoading}>
-                            Voltar
-                        </Button>
-                        <Button
-                            disabled={isLoading}
-                            onClick={() => {
-                                if (step < 2) {
-                                    setStep(prev => prev + 1)
-                                }
-                                if (step) {
-                                    mutate(form)
-                                }
+                    <form
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            flexGrow: 1,
+                        }}
+                        onSubmit={(e) => {
+                            e.preventDefault()
+                            e.stopPropagation()
+                            handleSubmit()
+                        }}>
+                        <Base
+                            _css={{
+                                flexDirection: 'column',
+                                display: !step ? 'flex' : 'none',
+                                gap: theme => theme.spacing(3),
                             }}>
-                            {step ? 'Concluir' : 'Próximo'}
-                        </Button>
-                    </Base>
+                            <Field
+                                name="name"
+                                validators={{
+                                    onChange: ({ value }) => colaboratorValidator.name(value),
+                                }}
+                                children={(field) => {
+                                    return (
+                                        <TextInput
+                                            id={field.name}
+                                            name={field.name}
+                                            label='Título'
+                                            value={field.state.value}
+                                            onBlur={field.handleBlur}
+                                            onChange={(e) => field.handleChange(e.target.value)}
+                                            error={field.state.meta.errors[0]}
+                                        />
+                                    )
+                                }}
+                            />
+                            <Field
+                                name="email"
+                                validators={{
+                                    onChange: ({ value }) => colaboratorValidator.email(value),
+                                }}
+                                children={(field) => {
+                                    return (
+                                        <TextInput
+                                            id={field.name}
+                                            name={field.name}
+                                            label='E-mail'
+                                            type='email'
+                                            value={field.state.value}
+                                            onBlur={field.handleBlur}
+                                            onChange={(e) => field.handleChange(e.target.value)}
+                                            error={field.state.meta.errors[0]}
+                                        />
+                                    )
+                                }}
+                            />
+                            <Field
+                                name="status"
+                                validators={{
+                                    onChange: ({ value }) => colaboratorValidator.status(value),
+                                }}
+                                children={(field) => {
+                                    return (
+                                        <Switch
+                                            id={field.name}
+                                            name={field.name}
+                                            _css={{ mt: 1 }}
+                                            label='Ativar ao criar'
+                                            checked={field.state.value}
+                                            onBlur={field.handleBlur}
+                                            onChange={(e) => field.handleChange(e.target.checked)}
+                                            defaultChecked
+                                            error={field.state.meta.errors[0]}
+                                        />
+                                    )
+                                }}
+                            />
+                        </Base>
+                        <Base _css={{ display: step ? undefined : 'none' }}>
+                            <Field
+                                name="role"
+                                validators={{
+                                    onChange: ({ value }) => colaboratorValidator.role(value),
+                                }}
+                                children={(field) => {
+                                    return (
+                                        <Select
+                                            id={field.name}
+                                            name={field.name}
+                                            disabled={isLoading || step > 1}
+                                            label='Selecione um departamento'
+                                            value={field.state.value}
+                                            onBlur={field.handleBlur}
+                                            onChange={(e) => field.handleChange(e.target.value)}
+                                            error={field.state.meta.errors[0]}
+                                        >
+                                            {DEPARTAMENTOS.map(dep => (
+                                                <Option value={dep}>{dep}</Option>
+                                            ))}
+                                        </Select>
+                                    )
+                                }}
+                            />
+                        </Base>
+                        <Base _css={{ mt: 'auto', display: 'flex', justifyContent: 'space-between' }}>
+                            <Button
+                                color="neutral"
+                                onClick={() => setStep(0)}
+                                variant="text"
+                                disabled={!step || isLoading}
+                            >
+                                Voltar
+                            </Button>
+                            <Subscribe
+                                selector={(state) => [state.canSubmit]}
+                                children={([canSubmit]) => (
+                                    <Button
+                                        disabled={step ? !canSubmit : false}
+                                        type={step ? "submit" : 'button'}
+                                        onClick={() => {
+                                            if (step < 2) {
+                                                setStep(prev => prev + 1)
+                                            }
+                                        }}>
+                                        {step ? 'Concluir' : 'Próximo'}
+                                    </Button>
+                                )}
+                            />
+                        </Base>
+                    </form>
                 </Base>
-            </Base>
-        </Base>
+            </Base >
+        </Base >
     )
 }

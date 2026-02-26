@@ -1,13 +1,13 @@
-# 🚀 Flugo Tech Test: Sistema de Gestão de Colaboradores
+# Flugo Tech Test: Sistema de Gestão de Colaboradores
 
 Este projeto é um teste técnico desenvolvido para a **Flugo**, focado em demonstrar uma arquitetura de software escalável, segurança de nível enterprise e isolamento completo de dependências externas através de **Facades** e **Inversão de Dependência**.
 
-## 📌 Visão Geral
+## Visão Geral
 A plataforma consiste em duas interfaces principais: **Listagem de Colaboradores** e **Registro de Colaboradores**. A solução foi desenhada para ser agnóstica a fornecedores de infraestrutura e bibliotecas de terceiros.
 
 ---
 
-## 🏗️ Arquitetura e Padrões
+## Arquitetura e Padrões
 
 ### 1. MVC (Model-View-Controller)
 O projeto separa responsabilidades de forma clara para garantir testabilidade:
@@ -26,7 +26,7 @@ O projeto separa responsabilidades de forma clara para garantir testabilidade:
 
 ---
 
-## 📂 Estrutura de Pastas
+## Estrutura de Pastas
 
 A organização do diretório `src` reflete o compromisso com o desacoplamento e o padrão MVC:
 
@@ -68,7 +68,7 @@ src/
 ```
 ---
 
-## 🛡️ Segurança e Infraestrutura
+## Segurança e Infraestrutura
 
 ### 1. Persistência e Proteção (Firebase)
 -   **App Check**: Implementado com **reCAPTCHA Enterprise**, garantindo que apenas requisições originadas do domínio autorizado acessem o Firestore.
@@ -80,7 +80,7 @@ Deploy realizado via **Cloudflare Pages** com foco em hardening:
 
 ---
 
-## 🧪 Qualidade e CI/CD
+## Qualidade e CI/CD
 
 A saúde do código é garantida por uma pipeline automatizada:
 -   **TypeScript**: Verificação estática rigorosa.
@@ -90,7 +90,7 @@ A saúde do código é garantida por uma pipeline automatizada:
 
 ---
 
-## 🛠️ Guia de Execução
+## Guia de Execução
 
 ### 1. Pré-requisitos
 *   **Node.js 22 (LTS)**: O projeto exige a versão 22 do [Node.js](https://nodejs.org/pt-br/download)

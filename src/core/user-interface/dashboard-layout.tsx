@@ -7,8 +7,6 @@ import { List } from '@/core/user-interface/list';
 import { Avatar } from '@/core/user-interface/avatar';
 import { Logo } from '@/core/user-interface/logo';
 
-import { Outlet } from '../routing-provider/outlet';
-
 import { ChevronRightIcon } from '@/core/user-interface/icons/chevron-right';
 import { UserIcon } from '@/core/user-interface/icons/user';
 
@@ -17,7 +15,7 @@ import { useNavigate } from '../routing-provider/use-navigate';
 import { useTheme } from './context-provider';
 import { Base } from './base';
 import { MenuIcon } from './icons/menu';
-import { useState } from 'react';
+import { useState, type PropsWithChildren } from 'react';
 import { CloseIcon } from './icons/close';
 import { useMediaQuery } from './use-media-query';
 import { windowBreakpoints } from './constants';
@@ -41,7 +39,7 @@ const drawerWidth = 280;
  *   <Route path="colaboradores" element={<ColaboradoresPage />} />
  * </Route>
  */
-export const DashboardLayout = () => {
+export const DashboardLayout = ({ children }: PropsWithChildren) => {
     const matches = useMediaQuery(windowWidth => windowWidth > windowBreakpoints.sm);
     const navigate = useNavigate()
     const theme = useTheme()
@@ -133,7 +131,7 @@ export const DashboardLayout = () => {
                     )}
                     <Avatar _css={{ ml: 'auto' }} hasBorder src={avatarSRC} alt='Avatar do usuario atual' />
                 </Box>
-                <Outlet />
+                {children}
             </Box>
         </Box>
     );
