@@ -1,6 +1,7 @@
 import { createContext, memo, useCallback, useContext, useState, type PropsWithChildren } from "react";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
+import { getId } from "../utils/get-id";
 
 
 type Toast = { id: string; variant: 'error' | 'success', message: string }
@@ -25,9 +26,11 @@ const ToastContext = createContext<Notify | undefined>(undefined)
  */
 export const ToastProvider = memo(({ children }: PropsWithChildren) => {
     const [state, setState] = useState<Toast[]>([])
+
     const notify: Notify = useCallback((payload) => {
-        setState(prev => [{ id: String(Math.random()), ...payload }, ...prev])
+        setState(prev => [{ id: getId(), ...payload }, ...prev])
     }, [])
+
     return (
         <ToastContext.Provider value={notify}>
             {children}

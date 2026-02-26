@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import {
     useQuery as useQueryTS,
@@ -8,6 +8,7 @@ import { useRepository } from "../repository-provider/context-provider"
 import type { BaseRecord, ListResult, Pagination, Sort } from "../repository-provider/types"
 import { deepSort } from '../utils/deep-sort'
 import { useQueryclient } from './use-query-client'
+import { useToast } from '../user-interface/toast'
 
 export interface UseQueryProps {
     entity: string
@@ -37,6 +38,7 @@ export function useQuery<RecordData extends BaseRecord>({
 }: UseQueryProps): UseQueryReturn<RecordData> {
     const queryClient = useQueryclient()
     const repository = useRepository()
+    const notify = useToast()
 
     const finalQueryKey: UseQueryProps['queryKey'] = [entity]
     if (sortAndPaginationStrategy === 'server') {
@@ -54,6 +56,11 @@ export function useQuery<RecordData extends BaseRecord>({
         staleTime,
     })
 
+    useEffect(() => {
+        if (error) {
+            notify({ variant: 'error', message: `Não foi possível listar registros de ${entity}` })
+        }
+    }, [error])
 
     return useMemo(() => {
         const finalData = (cachedData || data)

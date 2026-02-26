@@ -30,7 +30,7 @@ export const CreateColaboradoresPage = () => {
     })
 
     const [step, setStep] = useState(0)
-    const { Field, Subscribe, handleSubmit, getAllErrors } = useForm({
+    const { Field, Subscribe, handleSubmit } = useForm({
         email: '',
         name: '',
         role: '',
@@ -38,7 +38,6 @@ export const CreateColaboradoresPage = () => {
     },
         payload => mutate(payload)
     )
-    console.log(getAllErrors())
     return (
         <Base
             _css={{
@@ -124,7 +123,13 @@ export const CreateColaboradoresPage = () => {
                             <Field
                                 name="name"
                                 validators={{
-                                    onChange: ({ value }) => colaboratorValidator.name(value),
+                                    onChange: ({ value }) => {
+                                        const error = colaboratorValidator.name(value)
+                                        if (error) {
+                                            setStep(0)
+                                        }
+                                        return error
+                                    },
                                 }}
                                 children={(field) => {
                                     return (
@@ -143,7 +148,13 @@ export const CreateColaboradoresPage = () => {
                             <Field
                                 name="email"
                                 validators={{
-                                    onChange: ({ value }) => colaboratorValidator.email(value),
+                                    onChange: ({ value }) => {
+                                        const error = colaboratorValidator.email(value)
+                                        if (error) {
+                                            setStep(0)
+                                        }
+                                        return error
+                                    },
                                 }}
                                 children={(field) => {
                                     return (
@@ -217,21 +228,27 @@ export const CreateColaboradoresPage = () => {
                             >
                                 Voltar
                             </Button>
-                            <Subscribe
-                                selector={(state) => [state.canSubmit]}
-                                children={([canSubmit]) => (
-                                    <Button
-                                        disabled={step ? !canSubmit : false}
-                                        type={step ? "submit" : 'button'}
-                                        onClick={() => {
-                                            if (step < 2) {
-                                                setStep(prev => prev + 1)
-                                            }
-                                        }}>
-                                        {step ? 'Concluir' : 'Próximo'}
-                                    </Button>
-                                )}
-                            />
+                            {step < 1 ? (
+                                <Button
+                                    type='button'
+                                    onClick={() => {
+                                        setStep(prev => prev + 1)
+                                    }}>
+                                    Próximo
+                                </Button>
+                            ) : (
+                                <Subscribe
+                                    selector={(state) => [state.canSubmit]}
+                                    children={([canSubmit]) => (
+                                        <Button
+                                            disabled={!canSubmit || isLoading}
+                                            type="submit"
+                                        >
+                                            Concluir
+                                        </Button>
+                                    )}
+                                />
+                            )}
                         </Base>
                     </form>
                 </Base>

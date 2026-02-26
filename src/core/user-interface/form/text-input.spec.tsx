@@ -23,7 +23,6 @@ describe('TextInput Component', () => {
         );
 
         const input = getByPlaceholder('Meu input');
-        console.log(input)
         await userEvent.type(input, 'Olá Mundo');
 
         expect(input).toHaveValue('Olá Mundo');

@@ -21,7 +21,6 @@ describe('Chip Component', () => {
         const chipElement = getByText('Erro').element().parentElement as HTMLElement;
 
         const styles = getComputedStyle(chipElement);
-        console.log(styles.backgroundColor)
         expect(styles.backgroundColor).toContain('rgba(255, 86, 48, 0.16)');
     });
 });

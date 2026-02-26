@@ -13,6 +13,7 @@ import type { Colaborador } from "../model";
 import { useMediaQuery } from "@/core/user-interface/use-media-query";
 import { windowBreakpoints } from "@/core/user-interface/constants";
 import { useListController } from '@/core/entity/list/list-controller';
+import { EmptyList } from '@/core/user-interface/empty-list';
 
 
 
@@ -81,7 +82,7 @@ export const ListColaboradoresPage = () => {
                                 <Skeleton />
                             </DataGrid.Cell>
                         </DataGrid.Row>
-                    ) : data.data.map(row => (
+                    ) : data.data.length ? data.data.map(row => (
                         <DataGrid.Row key={row.id}>
                             <DataGrid.Cell>
                                 <Base
@@ -106,7 +107,9 @@ export const ListColaboradoresPage = () => {
                                 </Chip>
                             </DataGrid.Cell>
                         </DataGrid.Row>
-                    ))}
+                    )) : (
+                        <EmptyList />
+                    )}
                 </DataGrid.Body>
                 <DataGrid.Footer />
             </DataGrid>

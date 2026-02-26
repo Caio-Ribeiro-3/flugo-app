@@ -1,5 +1,10 @@
 import type { Theme } from "./types";
 
+
+
+/**
+ * Design tokens da empresa
+ */
 class AppTheme implements Theme {
     DEFAULT_SPACING;
     iconSizes;

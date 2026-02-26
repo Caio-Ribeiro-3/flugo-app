@@ -75,7 +75,7 @@ src/
 
 ### 2. Hosting e Delivery (Cloudflare Pages)
 Deploy realizado via **Cloudflare Pages** com foco em hardening:
--   **CSP (Content Security Policy)**: Implementada com suporte a **Nonces** para execução segura de scripts.
+-   **CSP (Content Security Policy)**: Para execução segura de scripts.
 -   **Segurança de Headers**: Injeção de headers como `X-Content-Type-Options: nosniff` e `x-frame-options: DENY` para mitigação de ataques.
 
 ---

@@ -9,45 +9,25 @@ import { ToastProvider } from './toast';
 
 const MUItheme = createTheme({
     typography: {
-        fontFamily: 'Public Sans, sans-serif',
-        h4: {
-            fontSize: 24,
-            lineHeight: 36 / 24,
-            fontWeight: 700
-        }
+        fontFamily: theme.typography.fontFamily,
     },
     palette: {
         primary: {
-            main: '#22C55E'
+            main: theme.palette.primary.main
         },
         text: {
-            primary: '#212B36',
-            secondary: '#637381'
+            primary: theme.palette.text.primary,
+            secondary: theme.palette.text.secondary
         },
-        divider: 'rgba(145, 158, 171, 0.2)',
+        divider: theme.palette.divider,
         success: {
-            main: '#118D57',
+            main: theme.palette.success.main,
         },
         error: {
-            main: '#B71D18',
+            main: theme.palette.error.main,
         },
     },
     components: {
-        MuiButton: {
-            styleOverrides: {
-                root: {
-                    fontWeight: 700,
-                    padding: 16,
-                    borderRadius: 8,
-                    boxShadow: 'none',
-                    textTransform: 'none',
-                    lineHeight: 1,
-                    ":hover": {
-                        boxShadow: 'none',
-                    }
-                }
-            }
-        },
         MuiChip: {
             styleOverrides: {
                 root: {

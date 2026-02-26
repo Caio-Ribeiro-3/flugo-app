@@ -8,11 +8,13 @@ import avatar4 from '@/assets/avatar4.png'
 import avatar5 from '@/assets/avatar5.png'
 import { deepCopy } from "@/core/utils/deep-copy";
 import { deepSort } from "@/core/utils/deep-sort";
+import { getId } from "@/core/utils/get-id";
 
 export class MockRepositoryProvider implements RepositoryProvider {
     private _storage: Record<string, unknown[]> = {
         colaboradores: [
             {
+                id: getId(),
                 avatar: avatar2,
                 name: 'Fernanda Torres',
                 email: 'fernandatorres@flugo.com',
@@ -20,6 +22,7 @@ export class MockRepositoryProvider implements RepositoryProvider {
                 status: true
             },
             {
+                id: getId(),
                 avatar: avatar3,
                 name: 'Joana D’Arc',
                 email: 'joanadarc@flugo.com',
@@ -27,6 +30,7 @@ export class MockRepositoryProvider implements RepositoryProvider {
                 status: true
             },
             {
+                id: getId(),
                 avatar: avatar4,
                 name: 'Mari Froes',
                 email: 'marifroes@flugo.com',
@@ -34,6 +38,7 @@ export class MockRepositoryProvider implements RepositoryProvider {
                 status: true
             },
             {
+                id: getId(),
                 avatar: avatar5,
                 name: 'Clara Costa',
                 email: 'claracosta@flugo.com',
@@ -74,7 +79,7 @@ export class MockRepositoryProvider implements RepositoryProvider {
             entityStorage = this._storage[entity]
         }
 
-        const newEntity = { id: String(Math.random()), ...payload }
+        const newEntity = { id: getId(), ...payload }
 
         entityStorage.push(newEntity)
 
