@@ -87,7 +87,7 @@ export const DashboardLayout = ({ children }: PropsWithChildren) => {
                     {matches ? (
                         <></>
                     ) : open && (
-                        <IconButton onClick={() => handleDrawerClose()}>
+                        <IconButton aria-label='Fechar menu' onClick={() => handleDrawerClose()}>
                             <CloseIcon />
                         </IconButton>
                     )}
@@ -125,7 +125,7 @@ export const DashboardLayout = ({ children }: PropsWithChildren) => {
                     alignItems: 'center'
                 }}>
                     {!matches && (
-                        <IconButton onClick={() => setOpen(true)}>
+                        <IconButton aria-label='Abrir menu' onClick={() => setOpen(true)}>
                             <MenuIcon />
                         </IconButton>
                     )}

@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render } from '../../test-utils';
 import { DashboardLayout } from './dashboard-layout';
+import { userEvent } from 'vitest/browser';
 
 // Mock do hook de navegação
 const mockNavigate = vi.fn();
@@ -30,10 +31,12 @@ describe('DashboardLayout Component', () => {
     });
 
     it('deve chamar a navegação ao clicar no item da lista', async () => {
-        const { getByText } = await render(<DashboardLayout />);
+        const { getByText, getByLabelText } = await render(<DashboardLayout />);
 
+        const menu = getByLabelText('Abrir menu');
+        await userEvent.click(menu)
         const item = getByText('Colaboradores');
-        await item.click();
+        await userEvent.click(item)
 
         expect(mockNavigate).toHaveBeenCalled();
     });
