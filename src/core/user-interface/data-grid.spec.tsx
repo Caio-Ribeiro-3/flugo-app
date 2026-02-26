@@ -26,9 +26,7 @@ describe('DataGrid Component', () => {
         const { getByText } = await render(
             <DataGrid>
                 <DataGrid.Header>
-                    <DataGrid.Row>
-                        <DataGrid.HeaderCell id="nome">Nome Colaborador</DataGrid.HeaderCell>
-                    </DataGrid.Row>
+                    <DataGrid.HeaderCell id="nome">Nome Colaborador</DataGrid.HeaderCell>
                 </DataGrid.Header>
                 <DataGrid.Body>
                     <DataGrid.Row>
@@ -46,9 +44,7 @@ describe('DataGrid Component', () => {
         const { getByText } = await render(
             <DataGrid>
                 <DataGrid.Header>
-                    <DataGrid.Row>
-                        <DataGrid.HeaderCell id="nome">Nome</DataGrid.HeaderCell>
-                    </DataGrid.Row>
+                    <DataGrid.HeaderCell id="nome">Nome</DataGrid.HeaderCell>
                 </DataGrid.Header>
             </DataGrid>
         );
