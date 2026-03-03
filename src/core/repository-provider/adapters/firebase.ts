@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import { type FirebaseApp } from "firebase/app";
 import {
     getFirestore,
     getDocs,
@@ -6,13 +6,9 @@ import {
     addDoc,
     query,
     orderBy,
-    // limit,
-    // startAfter,
     type DocumentData,
     serverTimestamp,
-    // type OrderByDirection,
 } from 'firebase/firestore/lite';
-import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 
 import type { BaseRecord, Pagination, ListResult, RepositoryProvider, Sort } from "../types";
 import { error } from "@/core/utils/logger";
@@ -21,23 +17,8 @@ import { error } from "@/core/utils/logger";
 
 export class FirebaseRepositoryProvider implements RepositoryProvider {
     private firestore: ReturnType<typeof getFirestore>
-    constructor() {
-        // @ts-ignore
-        window.FIREBASE_APPCHECK_DEBUG_TOKEN = import.meta.env.DEV;
-        const firebaseConfig = {
-            apiKey: import.meta.env.VITE_API_KEY,
-            authDomain: import.meta.env.VITE_AUTH_DOMAIN,
-            projectId: import.meta.env.VITE_PROJECT_ID,
-            storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
-            messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
-            appId: import.meta.env.VITE_APP_ID
-        };
-        const app = initializeApp(firebaseConfig);
+    constructor(app: FirebaseApp) {
         this.firestore = getFirestore(app);
-        initializeAppCheck(app, {
-            provider: new ReCaptchaV3Provider(import.meta.env.VITE_RECAPTCHA_SITE_KEY),
-            isTokenAutoRefreshEnabled: true
-        })
     }
     async list<RecordType extends BaseRecord>({
         entity,

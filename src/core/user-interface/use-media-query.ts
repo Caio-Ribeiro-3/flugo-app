@@ -8,7 +8,7 @@ export const useMediaQuery = (cb: (windowWidth: number) => boolean) => {
         }
         window.addEventListener('resize', callack)
 
-        return window.removeEventListener('resize', callack)
+        return () => window.removeEventListener('resize', callack)
     }, [])
 
     return state

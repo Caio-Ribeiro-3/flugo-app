@@ -23,11 +23,13 @@ import type { BaseUserInterfaceProps } from "./types";
  */
 export const Base = memo(({
     children,
-    _css
+    _css,
+    component
 }: PropsWithChildren<BaseUserInterfaceProps>) => {
     return (
         <Box
             sx={_css}
+            component={component}
         >
             {children}
         </Box>

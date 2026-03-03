@@ -1,6 +1,11 @@
 import logoURL from '@/assets/logo.svg'
+import { useNavigate } from '../routing-provider/use-navigate'
 
 
+
+interface LogoProps {
+    to?: string;
+}
 
 /**
  * Componente de marca visual (Logo).
@@ -11,6 +16,18 @@ import logoURL from '@/assets/logo.svg'
  * @example
  * <Logo />
  */
-export const Logo = () => {
-    return <img src={logoURL} alt="Logo da empresa" />
+export const Logo = ({ to }: LogoProps) => {
+    const navigate = useNavigate()
+    return (
+        <img
+            src={logoURL}
+            alt="Logo da empresa"
+            onClick={to ? () => {
+                navigate(to)
+            } : undefined}
+            style={{
+                cursor: to ? 'pointer' : undefined
+            }}
+        />
+    )
 }

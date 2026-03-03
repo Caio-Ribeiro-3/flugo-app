@@ -51,6 +51,7 @@ export type BaseUserInterfaceProps<ComponentProps = unknown> = ComponentProps & 
         gap?: (string | number | ((payload: Pick<Theme, 'spacing'>) => ReturnType<Theme['spacing']>));
     } & Spacing<'m'>
     & Spacing<'p'>
+    component?: string;
 }
 
 export interface BaseIconProps {

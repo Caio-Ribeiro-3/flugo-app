@@ -3,13 +3,18 @@ import type { ReactElement, ReactNode } from 'react';
 
 import { render, type ComponentRenderOptions } from 'vitest-browser-react'
 
-import { UserInterfaceProvider } from './core/user-interface/context-provider';
+import { AppShell } from './core/app-shell';
+import { MockAuthProvider } from './core/auth/adapters/mock';
+import { MockRepositoryProvider } from './core/repository-provider/adapters/mock';
 
 function AppProviders({ children }: { children: ReactNode }) {
     return (
-        <UserInterfaceProvider>
+        <AppShell
+            authProvider={new MockAuthProvider()}
+            repositoryProvider={new MockRepositoryProvider()}
+        >
             {children}
-        </UserInterfaceProvider>
+        </AppShell>
     );
 }
 

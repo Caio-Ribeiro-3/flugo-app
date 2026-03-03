@@ -3,6 +3,7 @@ import type { ButtonHTMLAttributes, DetailedHTMLProps, PropsWithChildren } from 
 import MUIButton from '@mui/material/Button';
 
 import { useTheme } from './context-provider';
+import type { BaseUserInterfaceProps } from './types';
 
 
 
@@ -29,8 +30,9 @@ export interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTML
 export const Button = ({
     variant = 'contained',
     color = 'primary',
+    _css,
     ...rest
-}: PropsWithChildren<ButtonProps>) => {
+}: PropsWithChildren<BaseUserInterfaceProps<ButtonProps>>) => {
     const theme = useTheme()
     const finalColor = variant === 'contained' ? 'white' : color === 'neutral' ? theme.palette.text.primary : theme.palette.primary.main
     const fontSize = 15
@@ -52,6 +54,7 @@ export const Button = ({
                     bgcolor: color === 'neutral' ? theme.palette.divider : undefined
                 },
                 color: finalColor,
+                ..._css
             }}
             variant={variant}
             {...rest}

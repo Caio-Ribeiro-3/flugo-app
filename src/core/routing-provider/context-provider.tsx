@@ -12,7 +12,7 @@ interface RoutingProviderProps {
     routes: Route[]
 }
 
-export const RoutingProvider = memo(({ routes }: RoutingProviderProps) => {
+export const Routes = memo(({ routes }: RoutingProviderProps) => {
     const frameworkRoutes = mountRoutes(routes, tanstackRouterAdapter)!
     return (
         <RouterProvider

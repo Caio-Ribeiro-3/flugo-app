@@ -1,4 +1,5 @@
 export type Route = {
+    requiredAuthentication?: boolean;
     path?: string;
     pathless?: boolean;
     Component: any;

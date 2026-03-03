@@ -83,7 +83,7 @@ export const DashboardLayout = ({ children }: PropsWithChildren) => {
                     display: 'flex',
                     justifyContent: 'space-between',
                 }}>
-                    <Logo />
+                    <Logo to='/dashboard' />
                     {matches ? (
                         <></>
                     ) : open && (
@@ -96,7 +96,7 @@ export const DashboardLayout = ({ children }: PropsWithChildren) => {
                     <List.ListItem>
                         <List.ListItemButton
                             onClick={() => {
-                                navigate('/')
+                                navigate('/dashboard')
                                 handleDrawerClose()
                             }}>
                             <List.ListItemIcon>
@@ -104,6 +104,23 @@ export const DashboardLayout = ({ children }: PropsWithChildren) => {
                             </List.ListItemIcon>
                             <List.ListItemText>
                                 Colaboradores
+                            </List.ListItemText>
+                            <List.ListItemIcon _css={{ pr: 1 }}>
+                                <ChevronRightIcon size="small" />
+                            </List.ListItemIcon>
+                        </List.ListItemButton>
+                    </List.ListItem>
+                    <List.ListItem>
+                        <List.ListItemButton
+                            onClick={() => {
+                                navigate('/dashboard/departamentos')
+                                handleDrawerClose()
+                            }}>
+                            <List.ListItemIcon>
+                                <UserIcon />
+                            </List.ListItemIcon>
+                            <List.ListItemText>
+                                Departamentos
                             </List.ListItemText>
                             <List.ListItemIcon _css={{ pr: 1 }}>
                                 <ChevronRightIcon size="small" />
