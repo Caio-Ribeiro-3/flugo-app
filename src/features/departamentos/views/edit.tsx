@@ -3,7 +3,7 @@ import { IDENTITY, type Departamento } from "../model";
 import { CreateEditForm } from "../create-edit-form";
 import { useParams } from "@/core/routing-provider/use-params";
 import { useListController } from "@/core/entity/list/list-controller";
-import { useLayoutEffect } from "react";
+import { useCallback, useLayoutEffect } from "react";
 import { useApp } from "@/core/app-shell";
 import { useToast } from "@/core/user-interface/toast";
 import { useEntity } from "@/core/entity/identity/context-provider";
@@ -16,15 +16,17 @@ const EditDepartamentosBase = ({ initialData }: { initialData: Departamento }) =
     const navigate = useNavigate()
     const { mutate, isLoading } = useUpdateController()
 
+    const onSubmit = useCallback((payload: unknown) => {
+        mutate(payload)
+            .then(() => {
+                navigate(`/dashboard/${IDENTITY}`)
+            })
+    }, [mutate, navigate])
+
     return (
         <CreateEditForm
             isLoading={isLoading}
-            onSubmit={(payload) => {
-                mutate(payload)
-                    .then(() => {
-                        navigate(`/dashboard/${IDENTITY}`)
-                    })
-            }}
+            onSubmit={onSubmit}
             initialData={initialData}
         />
     )

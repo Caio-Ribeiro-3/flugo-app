@@ -12,15 +12,17 @@ export const CreateDepartamentosPage = () => {
 
     const { mutate, isLoading } = useCreateController()
 
+    const onSubmit = useCallback((payload: unknown) => {
+        mutate(payload)
+            .then(() => {
+                navigate(`/dashboard/${IDENTITY}`)
+            })
+    }, [mutate, navigate])
+
     return (
         <CreateEditForm
             isLoading={isLoading}
-            onSubmit={useCallback((payload) => {
-                mutate(payload)
-                    .then(() => {
-                        navigate(`/dashboard/${IDENTITY}`)
-                    })
-            }, [])}
+            onSubmit={onSubmit}
         />
     )
 
