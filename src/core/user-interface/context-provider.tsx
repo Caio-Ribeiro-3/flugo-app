@@ -4,6 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { theme } from './theme';
 import type { Theme } from './types';
 import { ToastProvider } from './toast';
+import { AlertProvider } from './alert';
 
 
 
@@ -75,8 +76,10 @@ export const UserInterfaceProvider = ({ children }: PropsWithChildren) => {
         <UserInterfaceContext.Provider value={theme}>
             <ThemeProvider theme={MUItheme} >
                 <ToastProvider>
-                    <CssBaseline />
-                    {children}
+                    <AlertProvider>
+                        <CssBaseline />
+                        {children}
+                    </AlertProvider>
                 </ToastProvider>
             </ThemeProvider >
         </UserInterfaceContext.Provider>

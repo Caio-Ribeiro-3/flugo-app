@@ -1,6 +1,7 @@
 import type { ButtonHTMLAttributes, DetailedHTMLProps, PropsWithChildren } from 'react';
 
 import MUIButton from '@mui/material/Button';
+import MUIIconButton from '@mui/material/IconButton';
 
 import { useTheme } from './context-provider';
 import type { BaseUserInterfaceProps } from './types';
@@ -59,5 +60,19 @@ export const Button = ({
             variant={variant}
             {...rest}
         />
+    )
+}
+
+interface IconButtonProps {
+    'aria-label'?: string;
+    onClick?(): void;
+    disabled?: boolean;
+}
+
+export const IconButton = ({ children, ...rest }: PropsWithChildren<IconButtonProps>) => {
+    return (
+        <MUIIconButton {...rest}>
+            {children}
+        </MUIIconButton>
     )
 }

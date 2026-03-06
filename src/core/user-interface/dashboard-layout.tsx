@@ -1,7 +1,6 @@
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import AppBar from '@mui/material/AppBar';
-import IconButton from '@mui/material/IconButton';
 
 import { List } from '@/core/user-interface/list';
 import { Avatar } from '@/core/user-interface/avatar';
@@ -9,6 +8,8 @@ import { Logo } from '@/core/user-interface/logo';
 
 import { ChevronRightIcon } from '@/core/user-interface/icons/chevron-right';
 import { UserIcon } from '@/core/user-interface/icons/user';
+import { IDENTITY as DEPARTAMENTOS_IDENTITY } from '@/features/departamentos/model'
+
 
 import avatarSRC from '@/assets/avatar1.png';
 import { useNavigate } from '../routing-provider/use-navigate';
@@ -19,6 +20,11 @@ import { useState, type PropsWithChildren } from 'react';
 import { CloseIcon } from './icons/close';
 import { useMediaQuery } from './use-media-query';
 import { windowBreakpoints } from './constants';
+import { IconButton } from './button';
+import { useApp } from '../app-shell';
+import { Menu, MenuCategory } from './menu';
+import { useLogout } from '../auth/use-logout';
+import { DepartmentIcon } from './icons/department';
 
 
 
@@ -40,10 +46,12 @@ const drawerWidth = 280;
  * </Route>
  */
 export const DashboardLayout = ({ children }: PropsWithChildren) => {
+    const app = useApp()
     const matches = useMediaQuery(windowWidth => windowWidth > windowBreakpoints.sm);
     const navigate = useNavigate()
     const theme = useTheme()
     const [open, setOpen] = useState(false)
+    const { logout } = useLogout()
 
     const handleDrawerClose = () => {
         setOpen(false);
@@ -83,7 +91,7 @@ export const DashboardLayout = ({ children }: PropsWithChildren) => {
                     display: 'flex',
                     justifyContent: 'space-between',
                 }}>
-                    <Logo to='/dashboard' />
+                    <Logo />
                     {matches ? (
                         <></>
                     ) : open && (
@@ -96,7 +104,7 @@ export const DashboardLayout = ({ children }: PropsWithChildren) => {
                     <List.ListItem>
                         <List.ListItemButton
                             onClick={() => {
-                                navigate('/dashboard')
+                                navigate(app.defaultAuthenticatedRoute)
                                 handleDrawerClose()
                             }}>
                             <List.ListItemIcon>
@@ -113,11 +121,11 @@ export const DashboardLayout = ({ children }: PropsWithChildren) => {
                     <List.ListItem>
                         <List.ListItemButton
                             onClick={() => {
-                                navigate('/dashboard/departamentos')
+                                navigate(`/dashboard/${DEPARTAMENTOS_IDENTITY}`)
                                 handleDrawerClose()
                             }}>
                             <List.ListItemIcon>
-                                <UserIcon />
+                                <DepartmentIcon />
                             </List.ListItemIcon>
                             <List.ListItemText>
                                 Departamentos
@@ -146,7 +154,21 @@ export const DashboardLayout = ({ children }: PropsWithChildren) => {
                             <MenuIcon />
                         </IconButton>
                     )}
-                    <Avatar _css={{ ml: 'auto' }} hasBorder src={avatarSRC} alt='Avatar do usuario atual' />
+                    <Base _css={{ ml: 'auto' }} >
+                        <Menu
+                            trigger={() => (
+                                <Avatar hasBorder src={avatarSRC} alt='Avatar do usuario atual' />
+                            )}
+                        >
+                            {() => (
+                                <MenuCategory title='Acoes'>
+                                    <span style={{ cursor: 'pointer' }} onClick={() => logout()}>
+                                        Logout
+                                    </span>
+                                </MenuCategory>
+                            )}
+                        </Menu>
+                    </Base>
                 </Box>
                 {children}
             </Box>

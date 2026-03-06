@@ -9,18 +9,17 @@ import type { BaseUserInterfaceProps } from "../types";
 import { ChevronRightIcon } from "../icons/chevron-right";
 import { withFormField } from "./with-form-field";
 
-interface SelectProps {
+type SelectProps = {
     /** Label para o campo */
     label?: string;
-    /** Valor atual */
-    value?: string;
     /** Callback para evento onchange */
     onChange?: (event: React.ChangeEvent<Omit<HTMLInputElement, 'value'> & {
         value: string;
     }>) => void;
     /** Desabilitar/habilitar campo */
     disabled?: boolean;
-}
+    /** Desabilitar/habilitar campo */
+} & ({ multiple: true; value: string[] } | { multiple?: false; value?: string })
 
 /**
  * Componente de seleção (Facade) com suporte a campos de formulário.
@@ -40,6 +39,7 @@ const Select = memo(withFormField(({
     onChange,
     disabled,
     value,
+    multiple
 }: PropsWithChildren<BaseUserInterfaceProps<SelectProps>>) => (
     <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">{label}</InputLabel>
@@ -56,6 +56,7 @@ const Select = memo(withFormField(({
             IconComponent={() => (
                 <ChevronRightIcon _css={{ mr: 1, transform: 'rotate(90deg)' }} size="small" />
             )}
+            multiple={multiple}
         >
             {children}
         </MUISelect>

@@ -12,6 +12,7 @@ function AppProviders({ children }: { children: ReactNode }) {
         <AppShell
             authProvider={new MockAuthProvider()}
             repositoryProvider={new MockRepositoryProvider()}
+            defaultAuthenticatedRoute='/'
         >
             {children}
         </AppShell>

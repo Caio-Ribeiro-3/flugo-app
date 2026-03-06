@@ -1,48 +1,34 @@
-import { createContext, useContext, useMemo, useState, type PropsWithChildren } from "react";
+import { createContext, useContext, type PropsWithChildren } from "react";
+
 import { useQuery, type UseQueryReturn } from "@/core/query-provider/use-query";
-import type { BaseRecord, Pagination, Sort } from "@/core/repository-provider/types";
+import type { BaseRecord } from "@/core/repository-provider/types";
 
-export const DEFAULT_PAGINATION: Pagination = {
-    perPage: 10,
-    page: 1
-}
+import { useEntity } from "../identity/context-provider";
 
-type ControllerValue<Model extends BaseRecord> = UseQueryReturn<Model> & {
-    sort: Sort
-    setSort: React.Dispatch<React.SetStateAction<Sort>>
-    pagination: Pagination
-    setPagination: React.Dispatch<React.SetStateAction<Pagination>>
-}
+import { useSort } from "./use-sort";
+import { usePagination } from "./use-pagination";
+import { useFilter } from "./use-filter";
+
+
+type ControllerValue<Model extends BaseRecord> = UseQueryReturn<Model> & {}
 
 const ControllerContext = createContext<ControllerValue<any> | null>(null)
 
-export const ControllerProvider = ({ entity, children }: PropsWithChildren<{ entity: string }>) => {
-    const [sort, setSort] = useState<Sort>([])
-    const [pagination, setPagination] = useState<Pagination>(DEFAULT_PAGINATION)
+export const ControllerProvider = ({ children }: PropsWithChildren) => {
+    const entity = useEntity()
+    const { filters } = useFilter()
+    const { sort } = useSort()
+    const { pagination } = usePagination()
 
     const query = useQuery({
-        entity,
-        queryKey: ['list', sort, pagination],
+        queryKey: [entity, 'list', sort, pagination, filters],
         sort,
         pagination,
+        filters,
     })
 
-    const value = useMemo(() => ({
-        ...query,
-        sort,
-        setSort,
-        pagination,
-        setPagination
-    }), [
-        query,
-        sort,
-        setSort,
-        pagination,
-        setPagination
-    ])
-
     return (
-        <ControllerContext.Provider value={value}>
+        <ControllerContext.Provider value={query}>
             {children}
         </ControllerContext.Provider>
     )

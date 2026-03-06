@@ -29,6 +29,7 @@ export const Base = memo(({
     return (
         <Box
             sx={_css}
+            // @ts-expect-error : Tipagem do MUI
             component={component}
         >
             {children}

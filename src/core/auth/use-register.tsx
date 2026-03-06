@@ -7,8 +7,10 @@ import { useToast } from "../user-interface/toast"
 
 import { useAuth } from "./context-provider"
 import { useCurrentUser } from "./use-current-user"
+import { useApp } from "../app-shell"
 
 export const useRegister = () => {
+    const app = useApp()
     const { isAuthenticated } = useCurrentUser({ redirectTo: '/register' })
     const authProvider = useAuth()
     const navigate = useNavigate()
@@ -17,7 +19,7 @@ export const useRegister = () => {
     const { mutate, error, isPending: isLoading } = useMutation<void, Error, Parameters<typeof authProvider.register>[0]>({
         mutationFn: (payload) => {
             return authProvider.register(payload)
-                .then(() => navigate('/dashboard'))
+                .then(() => navigate(app.defaultAuthenticatedRoute))
                 .catch(() => notify({ variant: 'error', message: 'Não foi possível concluir o registro. Tente novamente mais tarde' }))
         },
     })

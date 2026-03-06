@@ -16,7 +16,7 @@ import type { Sort } from "../repository-provider/types";
  *   { field: 'status', direction: 'asc' },
  *   { field: 'nome', direction: 'desc' }
  * ];
- * const resultado = multiSort(frameworks, criterios);
+ * const resultado = deepSort(frameworks, criterios);
  */
 export function deepSort<T>(arr: T[], sort: Sort): T[] {
     if (!sort.length) return arr

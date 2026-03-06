@@ -4,8 +4,10 @@ import { Button } from "../user-interface/button"
 import { windowBreakpoints } from "../user-interface/constants"
 import { useTheme } from "../user-interface/context-provider"
 import { TextInput } from "../user-interface/form/text-input"
+import { useForm } from "../user-interface/form/use-form"
 import { Typography } from "../user-interface/typography"
 import { useMediaQuery } from "../user-interface/use-media-query"
+import { authValidators } from "./types"
 import { useRegister } from "./use-register"
 
 export const RegisterForm = () => {
@@ -13,6 +15,21 @@ export const RegisterForm = () => {
     const { register, isLoading } = useRegister()
     const matches = useMediaQuery(windowWidth => windowWidth > windowBreakpoints.sm)
 
+
+    const { Field, handleSubmit, getAllErrors } = useForm({
+        email: '',
+        password: '',
+        confirmPassword: '',
+    },
+        payload => {
+            if (!getAllErrors().form.errors.length) {
+                register({
+                    email: payload.email,
+                    password: payload.password
+                })
+            }
+        }
+    )
     return (
         <form
             style={{
@@ -21,11 +38,8 @@ export const RegisterForm = () => {
             }}
             onSubmit={e => {
                 e.preventDefault()
-                const form = new FormData(e.currentTarget)
-                register({
-                    email: String(form.get('email')),
-                    password: String(form.get('password'))
-                })
+                e.stopPropagation()
+                handleSubmit()
             }}>
 
             <Base
@@ -48,9 +62,72 @@ export const RegisterForm = () => {
                 >
                     Registre-se
                 </Typography>
-                <TextInput disabled={isLoading} id='email' name='email' label='E-mail' type="email" />
-                <TextInput disabled={isLoading} id='password' name='password' label='Senha' type='password' />
-                <TextInput disabled={isLoading} id='confirmPassword' name='confirmPassword' label='Repetir Senha' type='password' />
+                <Field
+                    name="email"
+                    validators={{
+                        onChange: ({ value }) => {
+                            return authValidators.email(value)
+                        },
+                    }}
+                    children={(field) => {
+                        return (
+                            <TextInput
+                                id={field.name}
+                                name={field.name}
+                                label='E-mail'
+                                type='email'
+                                value={field.state.value}
+                                onBlur={field.handleBlur}
+                                onChange={(e) => field.handleChange(e.target.value)}
+                                error={field.state.meta.errors[0]}
+                            />
+                        )
+                    }}
+                />
+                <Field
+                    name="password"
+                    validators={{
+                        onChange: ({ value }) => {
+                            return authValidators.password(value)
+                        },
+                    }}
+                    children={(field) => {
+                        return (
+                            <TextInput
+                                id={field.name}
+                                name={field.name}
+                                label='Senha'
+                                type='password'
+                                value={field.state.value}
+                                onBlur={field.handleBlur}
+                                onChange={(e) => field.handleChange(e.target.value)}
+                                error={field.state.meta.errors[0]}
+                            />
+                        )
+                    }}
+                />
+                <Field
+                    name="confirmPassword"
+                    validators={{
+                        onChange: ({ value, fieldApi }) => {
+                            return authValidators.confirmPassword(value, fieldApi.form.state.values.password)
+                        },
+                    }}
+                    children={(field) => {
+                        return (
+                            <TextInput
+                                id={field.name}
+                                name={field.name}
+                                label='Repetir Senha'
+                                type='password'
+                                value={field.state.value}
+                                onBlur={field.handleBlur}
+                                onChange={(e) => field.handleChange(e.target.value)}
+                                error={field.state.meta.errors[0]}
+                            />
+                        )
+                    }}
+                />
                 <div>
                     <Link to='/login'>Já tem uma conta? Faça login agora!</Link>
                     <Button disabled={isLoading} type="submit" _css={{ mt: 2, width: '100%' }}>

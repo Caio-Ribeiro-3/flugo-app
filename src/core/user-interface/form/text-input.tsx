@@ -6,14 +6,12 @@ import type { BaseUserInterfaceProps } from '../types';
 import { withFormField } from './with-form-field';
 
 
-export type TextInputProps = {
-    label?: string;
-    value?: string;
-    onChange?: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement, Element>
-    placeholder?: string;
-    disabled?: boolean;
-    type?: React.HTMLInputTypeAttribute;
-}
+export type TextInputProps = Omit<
+    React.DetailedHTMLProps<
+        React.InputHTMLAttributes<HTMLInputElement>,
+        HTMLInputElement>, 'color' | 'size'> & {
+            label?: string;
+        }
 
 /**
  * Componente de entrada de texto (Facade).
@@ -31,25 +29,24 @@ export type TextInputProps = {
 export const TextInput = memo(withFormField(({
     _css,
     label,
-    value,
-    onChange,
-    placeholder,
-    disabled,
-    type,
+    min,
+    max,
+    // @ts-ignore
+    component,
     ...rest
 }: BaseUserInterfaceProps<TextInputProps>) => {
     return (
         <TextField
             label={label}
-            value={value}
-            type={type}
             multiline={false}
-            // @ts-ignore : Não usamos textarea no momento
-            onChange={e => onChange?.(e)}
-            placeholder={placeholder}
-            disabled={disabled}
             fullWidth
             sx={_css}
+            slotProps={{
+                htmlInput: {
+                    min,
+                    max,
+                },
+            }}
             {...rest}
         />
     )

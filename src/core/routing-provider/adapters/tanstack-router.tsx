@@ -39,9 +39,16 @@ export const tanstackRouterAdapter: MountRouteStrategy<any> = (routes) => {
                     </Authenticated>
                 ) : route.Component,
                 getParentRoute: () => actualParent,
+                notFoundComponent: () => {
+                    return (
+                        <NotFound />
+                    )
+                },
             }
+            let path = '/'
             if (route.path) {
-                createRoutePayload.path = route.path
+                path = route.path.replace(':', '$')
+                createRoutePayload.path = path
             } else if (route.pathless) {
                 createRoutePayload.id = getId()
             }

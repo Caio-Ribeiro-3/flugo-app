@@ -79,16 +79,20 @@ export const Switch = memo(withFormField(({
     label,
     _css,
     onChange,
+    component,
     ...rest
-}: BaseUserInterfaceProps<SwitchProps>) => (
-    <FormControlLabel
-        sx={{ margin: 0, ..._css }}
-        control={(
-            <CustomSwitch
-                onChange={e => onChange?.(e)}
-                {...rest}
-            />
-        )}
-        label={<Typography variant='body2'>{label}</Typography>}
-    />
-)))
+}: BaseUserInterfaceProps<SwitchProps>) => {
+    component
+    return (
+        <FormControlLabel
+            sx={{ margin: 0, ..._css }}
+            control={(
+                <CustomSwitch
+                    onChange={e => onChange?.(e)}
+                    {...rest}
+                />
+            )}
+            label={<Typography variant='body2'>{label}</Typography>}
+        />
+    )
+}))
