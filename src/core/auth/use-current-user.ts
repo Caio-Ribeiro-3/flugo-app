@@ -22,7 +22,7 @@ export const useCurrentUser = (payload: { redirectTo?: string } | undefined = {}
                 .then(() => {
                     return authProvider.getCurrentUser()
                         .then((currentUser) => {
-                            if (!window.location.pathname.startsWith('dashboard')) {
+                            if (!window.location.pathname.startsWith('/dashboard')) {
                                 navigate(app.defaultAuthenticatedRoute)
                             }
                             return currentUser
